@@ -2,6 +2,7 @@ import { Router } from 'express'
 import * as schoolController from "./../controllers/schoolController.js"
 import * as gpReportDkrController from "./../controllers/gpReportDkrController.js"
 import * as programDkrController from "./../controllers/programDkrController.js"
+import * as structureDkrController from "./../controllers/structureDkrController.js"
 
 import multer from 'multer';
 import path from 'path'
@@ -24,14 +25,13 @@ const storageUpload = (directory) => {
         }
     })
 }
-const uploadFile = (directory) => {
+const uploadFile = (directory, filetypes) => {
     return multer({ 
         storage: storageUpload(directory),
         fileFilter: (req, file, cb) => {
-            const filetypes = /jpeg|jpg|png|gif/;
             const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
             const mimetype = filetypes.test(file.mimetype);
-        
+
             if (extname && mimetype) {
                 return cb(null, true);
             } else {
@@ -42,6 +42,8 @@ const uploadFile = (directory) => {
 } 
 
 const router = Router()
+const filetypes_image = /jpeg|jpg|png|gif/;
+const filetypes_document = /pdf|docx/;
 
 // school
 router.get('/api/schools', schoolController.getAll)
@@ -62,7 +64,7 @@ router.delete('/api/schools/:school_id', schoolController.destroy)
 
 // gp report dkr
 router.get('/api/gp-reports', gpReportDkrController.getAll)
-router.post('/api/gp-reports', uploadFile("gp-report").single('document'), gpReportDkrController.store)
+router.post('/api/gp-reports', uploadFile("gp-report", filetypes_document).single('document'), gpReportDkrController.store)
 router.delete('/api/gp-reports/:report_id', gpReportDkrController.destroy)
 
 // program dkr
@@ -83,5 +85,10 @@ router.put('/api/program-dkr/:program_id', upload.fields([
 ]), programDkrController.update)
 
 router.delete('/api/program-dkr/:program_id', programDkrController.destroy)
+
+// structure dkr
+router.get('/api/structures-dkr', structureDkrController.getAll)
+router.post('/api/structures-dkr', uploadFile("structure-dkr", filetypes_image).single('image'), structureDkrController.store)
+router.delete('/api/structures-dkr/:structure_id', structureDkrController.destroy)
 
 export default router
