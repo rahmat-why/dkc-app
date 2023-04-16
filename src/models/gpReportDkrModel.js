@@ -19,9 +19,10 @@ export const getAll = () => {
 }
 
 export const store = (dkr_id, document, name, type) => {
-    const report_id = "SCH"+Math.random();
+    const report_id = "RPR"+Math.random();
     const store = GpReportDkr.create({
         report_id: report_id,
+        dkr_id: dkr_id,
         document: document,
         name: name,
         type: type

@@ -12,9 +12,13 @@ export async function getAll(req, res) {
 
 export async function store(req, res) {
     try {
-        const { dkr_id, gudep_number, school_name } = req.body
-        const schools = await gpReportModel.store(dkr_id, gudep_number, school_name);
-        return response(res, 500, false, "Success", schools)
+        const { dkr_id, name, type } = req.body
+        const { filename } = req.file
+        
+        const document_url = "/gp-report/"+filename;
+
+        const gp_report = await gpReportModel.store(dkr_id, document_url, name, type);
+        return response(res, 200, false, "Success", gp_report)
     }catch(e) {
         return response(res, 500, false, e, {})
     }
@@ -22,9 +26,9 @@ export async function store(req, res) {
 
 export async function destroy(req, res) {
     try{
-        const { school_id } = req.params
-        const schools = await gpReportModel.destroy(school_id);
-        return response(res, 500, false, "Success", schools)
+        const { report_id } = req.params
+        const gp_report = await gpReportModel.destroy(report_id);
+        return response(res, 200, false, "Success", gp_report)
     }catch(e) {
         return response(res, 500, false, e, {})
     }

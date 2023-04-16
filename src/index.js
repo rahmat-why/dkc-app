@@ -7,6 +7,8 @@ const app = express();
 
 app.use(cors())
 
+app.use(express.static('upload'));
+
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }))
 
