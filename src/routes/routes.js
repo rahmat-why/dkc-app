@@ -114,7 +114,7 @@ router.delete('/api/dkr/:dkr_id', dkrController.destroy)
 
 // structure dkr
 router.get('/api/officers', profileOfficerController.getAll)
-router.post('/api/officers', uploadFile("structure-dkr", filetypes_image).single('image'), profileOfficerController.store)
-router.delete('/api/officers/:structure_id', profileOfficerController.destroy)
+router.post('/api/officers', uploadFile("profile-officer", filetypes_image).single('image'), profileOfficerController.store)
+router.delete('/api/officers/:officer_id', profileOfficerController.destroy)
 
 export default router
