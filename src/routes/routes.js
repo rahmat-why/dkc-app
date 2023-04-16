@@ -4,6 +4,7 @@ import * as gpReportDkrController from "./../controllers/gpReportDkrController.j
 import * as programDkrController from "./../controllers/programDkrController.js"
 import * as structureDkrController from "./../controllers/structureDkrController.js"
 import * as dkrController from "./../controllers/dkrController.js"
+import * as profileOfficerController from "./../controllers/profileOfficerController.js"
 
 import multer from 'multer';
 import path from 'path'
@@ -110,5 +111,10 @@ router.put('/api/dkr/:dkr_id', upload.fields([
 ]), dkrController.update)
 
 router.delete('/api/dkr/:dkr_id', dkrController.destroy)
+
+// structure dkr
+router.get('/api/officers', profileOfficerController.getAll)
+router.post('/api/officers', uploadFile("structure-dkr", filetypes_image).single('image'), profileOfficerController.store)
+router.delete('/api/officers/:structure_id', profileOfficerController.destroy)
 
 export default router
