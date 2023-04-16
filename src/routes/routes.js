@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import * as schoolController from "./../controllers/schoolController.js"
 import * as gpReportDkrController from "./../controllers/gpReportDkrController.js"
+import * as programDkrController from "./../controllers/programDkrController.js"
 
 import multer from 'multer';
 import path from 'path'
@@ -63,5 +64,24 @@ router.delete('/api/schools/:school_id', schoolController.destroy)
 router.get('/api/gp-reports', gpReportDkrController.getAll)
 router.post('/api/gp-reports', uploadFile("gp-report").single('document'), gpReportDkrController.store)
 router.delete('/api/gp-reports/:report_id', gpReportDkrController.destroy)
+
+// program dkr
+router.get('/api/program-dkr', programDkrController.getAll)
+
+router.post('/api/program-dkr', upload.fields([
+    { name: 'month', maxCount: 1 },
+    { name: 'year', maxCount: 1 },
+    { name: 'program_name', maxCount: 1 },
+    { name: 'dkr_id', maxCount: 1 },
+]), programDkrController.store)
+
+router.put('/api/program-dkr/:program_id', upload.fields([
+    { name: 'month', maxCount: 1 },
+    { name: 'year', maxCount: 1 },
+    { name: 'program_name', maxCount: 1 },
+    { name: 'dkr_id', maxCount: 1 },
+]), programDkrController.update)
+
+router.delete('/api/program-dkr/:program_id', programDkrController.destroy)
 
 export default router
