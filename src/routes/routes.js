@@ -3,6 +3,7 @@ import * as schoolController from "./../controllers/schoolController.js"
 import * as gpReportDkrController from "./../controllers/gpReportDkrController.js"
 import * as programDkrController from "./../controllers/programDkrController.js"
 import * as structureDkrController from "./../controllers/structureDkrController.js"
+import * as dkrController from "./../controllers/dkrController.js"
 
 import multer from 'multer';
 import path from 'path'
@@ -90,5 +91,24 @@ router.delete('/api/program-dkr/:program_id', programDkrController.destroy)
 router.get('/api/structures-dkr', structureDkrController.getAll)
 router.post('/api/structures-dkr', uploadFile("structure-dkr", filetypes_image).single('image'), structureDkrController.store)
 router.delete('/api/structures-dkr/:structure_id', structureDkrController.destroy)
+
+// dkr
+router.get('/api/dkr', dkrController.getAll)
+
+router.post('/api/dkr', upload.fields([
+    { name: 'name', maxCount: 1 },
+    { name: 'area_id', maxCount: 1 },
+    { name: 'username', maxCount: 1 },
+    { name: 'password', maxCount: 1 },
+]), dkrController.store)
+
+router.put('/api/dkr/:dkr_id', upload.fields([
+    { name: 'name', maxCount: 1 },
+    { name: 'area_id', maxCount: 1 },
+    { name: 'username', maxCount: 1 },
+    { name: 'password', maxCount: 1 },
+]), dkrController.update)
+
+router.delete('/api/dkr/:dkr_id', dkrController.destroy)
 
 export default router
