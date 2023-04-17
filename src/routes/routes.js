@@ -11,6 +11,14 @@ import * as dataPotensiController from "./../controllers/dataPotensiController.j
 import * as loginController from "./../controllers/loginController.js"
 
 import loginMiddleware from './../middlewares/loginMiddleware.js'
+import * as bannerController from "./../controllers/bannerController.js"
+import * as agendaController from "./../controllers/agendaController.js"
+import * as achievementController from "./../controllers/achievementController.js"
+import * as goalController from "./../controllers/goalController.js"
+import * as program_dkcController from "./../controllers/program_dkcController.js"
+import * as scout_documentController from "../controllers/scout-documentController.js"
+import * as speech_leader_dkcController from "./../controllers/speech_leader_dkcController.js"
+import * as productController from "./../controllers/productController.js"
 
 import multer from 'multer';
 import path from 'path'
@@ -39,7 +47,7 @@ const uploadFile = (directory, filetypes) => {
         fileFilter: (req, file, cb) => {
             const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
             const mimetype = filetypes.test(file.mimetype);
-
+        
             if (extname && mimetype) {
                 return cb(null, true);
             } else {
@@ -141,5 +149,113 @@ router.post('/api/login', upload.fields([
 ]), loginController.login)
 
 router.get('/api/check-login', loginController.checkLogin)
+
+
+//banner
+
+//get
+router.get('/api/banners', bannerController.getAll)
+
+//post
+router.post('/api/banners', uploadFile("banner").single('image'), bannerController.store)
+
+//destroy
+router.delete('/api/banners/:banner_id', bannerController.destroy)
+
+
+//agenda
+router.get('/api/agendas', agendaController.getAll)
+
+router.post('/api/agendas', upload.fields([
+    { name: 'title', maxCount: 1 },
+    { name: 'scheduleAt', maxCount: 1 },
+]), agendaController.store)
+
+router.put('/api/agendas/:agenda_id', upload.fields([
+    { name: 'title', maxCount: 1 },
+    { name: 'scheduleAt', maxCount: 1 },
+]), agendaController.update)
+
+router.delete('/api/agendas/:agenda_id', agendaController.destroy)
+
+//achievement
+router.get('/api/achievements',achievementController.getAll)
+
+router.post('/api/achievements', upload.fields([
+    { name: 'title', maxCount: 1 },
+    { name: 'description', maxCount: 1 },
+]), achievementController.store)
+
+router.put('/api/achievements/:achievement_id', upload.fields([
+    { name: 'title', maxCount: 1 },
+    { name: 'description', maxCount: 1 },
+]), achievementController.update)
+
+router.delete('/api/achievements/:achievement_id', achievementController.destroy)
+
+//Goal
+router.get('/api/goals/misi',goalController.getAllMisi)
+router.get('/api/goals/visi',goalController.getAllVisi)
+router.get('/api/goals',goalController.getAll)
+
+router.post('/api/goals', upload.fields([
+    { name: 'type', maxCount: 1 },
+    { name: 'description', maxCount: 1 },
+]), goalController.store)
+
+router.put('/api/goals/:goal_id', upload.fields([
+    { name: 'type', maxCount: 1 },
+    { name: 'description', maxCount: 1 },
+]), goalController.update)
+
+router.delete('/api/goals/:goal_id', goalController.destroy)
+
+//program dkc
+router.get('/api/programs-dkc',program_dkcController.getAll)
+
+router.post('/api/programs-dkc', upload.fields([
+    { name: 'program_name', maxCount: 1 },
+    { name: 'year', maxCount: 1 },
+]), program_dkcController.store)
+
+router.put('/api/programs-dkc/:program_id', upload.fields([
+    { name: 'program_name', maxCount: 1 },
+    { name: 'year', maxCount: 1 },
+]), program_dkcController.update)
+
+router.delete('/api/programs-dkc/:program_id', program_dkcController.destroy)
+
+//scout document
+
+//get
+router.get('/api/scout-documents', scout_documentController.getAll)
+
+//post
+router.post('/api/scout-documents', uploadFile("scout-document").single('document'), scout_documentController.store)
+
+//destroy
+router.delete('/api/scout-documents/:document_id', scout_documentController.destroy)
+
+
+//speech_leader_dkc
+
+//get
+router.get('/api/speechs', speech_leader_dkcController.getAll)
+
+//post
+router.post('/api/speechs', uploadFile("spech_leader_dkc").single('image'), speech_leader_dkcController.store)
+
+//destroy
+router.delete('/api/speechs/:speech_id', speech_leader_dkcController.destroy)
+
+//Product
+//get
+router.get('/api/products', productController.getAll)
+
+//post
+router.post('/api/products', uploadFile("product").single('image'), productController.store)
+
+//destroy
+router.delete('/api/products/:product_id', productController.destroy)
 
 export default router
