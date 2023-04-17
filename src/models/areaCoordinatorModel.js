@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import connection from '../config/db.config.js'
+import { Area } from "./areaModel.js";
 
 export const AreaCoordinator = connection.define('area_coordinator', {
     coordinator_id: {
@@ -12,8 +13,13 @@ export const AreaCoordinator = connection.define('area_coordinator', {
     area_id: Sequelize.STRING
 });
 
+AreaCoordinator.belongsTo(Area, {foreignKey : 'area_id'})
+
 export const getAll = () => {
-    const area_coordinator = AreaCoordinator.findAll()
+    const area_coordinator = AreaCoordinator.findAll({
+        include : Area
+
+    })
 
     return area_coordinator;
 }
