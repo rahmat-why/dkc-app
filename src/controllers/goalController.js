@@ -39,7 +39,7 @@ export async function update(req, res) {
 }
 
 export async function store(req, res) {
-    try {
+    try { 
         const { type, description } = req.body
 
         const goal = await goalModel.store(type, description);
