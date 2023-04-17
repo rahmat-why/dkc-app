@@ -1,5 +1,7 @@
 import { Sequelize } from "sequelize";
 import connection from '../config/db.config.js'
+import { Scope } from "./scopeModel.js";
+import { Stage } from "./stageModel.js";
 
 export const ProfileOfficer = connection.define('profile_officer', {
     officer_id: {
@@ -17,11 +19,23 @@ export const ProfileOfficer = connection.define('profile_officer', {
     facebook: Sequelize.STRING
 });
 
-export const getAll = () => {
-    const profile_officer = ProfileOfficer.findAll()
+ProfileOfficer.belongsTo(Scope, { foreignKey: 'scope_id' });
+ProfileOfficer.belongsTo(Stage, { foreignKey: 'stage_id' });
 
-    return profile_officer;
-}
+export const getAll = () => {
+  const profile_officer = ProfileOfficer.findAll({
+    include: [
+      {
+        model: Scope,
+      },
+      {
+        model: Stage,
+      },
+    ],
+  });
+
+  return profile_officer;
+};
 
 export const getByScope = (scope_id) => {
     const profile_officer = ProfileOfficer.findAll({
