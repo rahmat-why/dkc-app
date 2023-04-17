@@ -10,7 +10,8 @@ export const GpReportDkr = connection.define('gp_report_dkr', {
     dkr_id: Sequelize.STRING,
     document: Sequelize.STRING,
     name: Sequelize.STRING,
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    year: Sequelize.STRING,
 });
 
 GpReportDkr.belongsTo(Dkr, { foreignKey: 'dkr_id' });
@@ -34,7 +35,8 @@ export const store = (dkr_id, document, name, type) => {
         dkr_id: dkr_id,
         document: document,
         name: name,
-        type: type
+        type: type,
+        year: year
     })
     
     return store;
