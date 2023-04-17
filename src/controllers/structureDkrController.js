@@ -1,9 +1,10 @@
 import response from '../response.js'
-import * as structureDkrModel from "../models/gpReportDkrModel.js"
+import * as structureDkrModel from "../models/structureDkrModel.js"
 
 export async function getAll(req, res) {
     try {
-        const structures_dkr = await structureDkrModel.getAll();
+        const { dkr_id } = req.params
+        const structures_dkr = await structureDkrModel.getAll(dkr_id);
         return response(res, 200, true, "Success", structures_dkr)
     }catch(e) {
         return response(res, 500, false, e, {})

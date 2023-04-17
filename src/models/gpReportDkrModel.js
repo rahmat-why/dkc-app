@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import connection from '../config/db.config.js'
+import { Dkr } from "./dkrModel.js";
 
 export const GpReportDkr = connection.define('gp_report_dkr', {
     report_id: {
@@ -12,8 +13,15 @@ export const GpReportDkr = connection.define('gp_report_dkr', {
     type: Sequelize.STRING
 });
 
-export const getAll = () => {
-    const gp_report_dkr = GpReportDkr.findAll()
+GpReportDkr.belongsTo(Dkr, { foreignKey: 'dkr_id' });
+
+export const getAll = (dkr_id) => {
+    const gp_report_dkr = GpReportDkr.findAll({
+        where: {
+            dkr_id: dkr_id
+        },
+        include: Dkr
+    })
 
     return gp_report_dkr;
 }

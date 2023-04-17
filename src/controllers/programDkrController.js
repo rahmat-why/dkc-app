@@ -3,7 +3,8 @@ import * as programDkrModel from "../models/programDkrModel.js"
 
 export async function getAll(req, res) {
     try {
-        const program_dkrs = await programDkrModel.getAll();
+        const { dkr_id } = req.params
+        const program_dkrs = await programDkrModel.getAll(dkr_id);
         return response(res, 200, true, "Success", program_dkrs)
     }catch(e) {
         return response(res, 500, false, e, {})

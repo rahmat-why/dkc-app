@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import connection from '../config/db.config.js'
+import { Dkr } from "./dkrModel.js";
 
 export const School = connection.define('school', {
     school_id: {
@@ -11,8 +12,15 @@ export const School = connection.define('school', {
     school_name: Sequelize.STRING
 });
 
-export const getAll = () => {
-    const schools = School.findAll()
+School.belongsTo(Dkr, { foreignKey: 'dkr_id' });
+
+export const getAll = (dkr_id) => {
+    const schools = School.findAll({
+        where: {
+            dkr_id: dkr_id
+        },
+        include: Dkr
+    })
 
     return schools;
 }

@@ -3,7 +3,8 @@ import * as schoolModel from "../models/schoolModel.js"
 
 export async function getAll(req, res) {
     try {
-        const schools = await schoolModel.getAll();
+        const { dkr_id } = req.params
+        const schools = await schoolModel.getAll(dkr_id);
         return response(res, 200, true, "Success", schools)
     }catch(e) {
         return response(res, 500, false, e, {})

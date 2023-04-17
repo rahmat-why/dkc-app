@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import connection from '../config/db.config.js'
+import jwt from "jsonwebtoken";
 
 export const Dkr = connection.define('dkrs', {
     dkr_id: {
