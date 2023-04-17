@@ -3,6 +3,7 @@ import * as areaCoordinatorModel from "../models/areaCoordinatorModel.js"
 
 export async function getAll(req, res) {
     try {
+        
         const area_coordinator = await areaCoordinatorModel.getAll();
         return response(res, 200, true, "Success", area_coordinator)
     }catch(e) {
