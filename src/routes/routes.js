@@ -59,7 +59,7 @@ const uploadFile = (directory, filetypes) => {
 
 const router = Router()
 const filetypes_image = /jpeg|jpg|png|gif/;
-const filetypes_document = /pdf|docx/;
+const filetypes_document = /pdf/;
 
 // school
 router.get('/api/schools/:dkr_id', schoolController.getAll)
@@ -103,6 +103,7 @@ router.delete('/api/structures-dkr/:structure_id', structureDkrController.destro
 
 // dkr
 router.get('/api/dkr', dkrController.getAll)
+router.get('/api/dkr/area/:area_id', dkrController.getByArea)
 router.post('/api/dkr', loginMiddleware, upload.fields([
     { name: 'name', maxCount: 1 },
     { name: 'area_id', maxCount: 1 },
@@ -119,6 +120,7 @@ router.delete('/api/dkr/:dkr_id', loginMiddleware, dkrController.destroy)
 
 // profile officer
 router.get('/api/officers', profileOfficerController.getAll)
+router.get('/api/officers/:scope_id',profileOfficerController.getByScope)
 router.post('/api/officers', loginMiddleware, uploadFile("profile-officer", filetypes_image).single('image'), profileOfficerController.store)
 router.delete('/api/officers/:officer_id', loginMiddleware, profileOfficerController.destroy)
 
@@ -157,7 +159,7 @@ router.get('/api/check-login', loginController.checkLogin)
 router.get('/api/banners', bannerController.getAll)
 
 //post
-router.post('/api/banners', uploadFile("banner").single('image'), bannerController.store)
+router.post('/api/banners', uploadFile("banner", filetypes_image).single('image'), bannerController.store)
 
 //destroy
 router.delete('/api/banners/:banner_id', bannerController.destroy)
@@ -212,7 +214,7 @@ router.delete('/api/goals/:goal_id', goalController.destroy)
 
 //program dkc
 router.get('/api/programs-dkc',program_dkcController.getAll)
-
+router.get('/api/programs-dkc/:year',program_dkcController.getByYear)
 router.post('/api/programs-dkc', upload.fields([
     { name: 'program_name', maxCount: 1 },
     { name: 'year', maxCount: 1 },
@@ -231,7 +233,7 @@ router.delete('/api/programs-dkc/:program_id', program_dkcController.destroy)
 router.get('/api/scout-documents', scout_documentController.getAll)
 
 //post
-router.post('/api/scout-documents', uploadFile("scout-document").single('document'), scout_documentController.store)
+router.post('/api/scout-documents', uploadFile("scout-document", filetypes_document).single('document'), scout_documentController.store)
 
 //destroy
 router.delete('/api/scout-documents/:document_id', scout_documentController.destroy)
@@ -243,7 +245,7 @@ router.delete('/api/scout-documents/:document_id', scout_documentController.dest
 router.get('/api/speechs', speech_leader_dkcController.getAll)
 
 //post
-router.post('/api/speechs', uploadFile("spech_leader_dkc").single('image'), speech_leader_dkcController.store)
+router.post('/api/speechs', uploadFile("spech_leader_dkc", filetypes_image).single('image'), speech_leader_dkcController.store)
 
 //destroy
 router.delete('/api/speechs/:speech_id', speech_leader_dkcController.destroy)
@@ -253,7 +255,7 @@ router.delete('/api/speechs/:speech_id', speech_leader_dkcController.destroy)
 router.get('/api/products', productController.getAll)
 
 //post
-router.post('/api/products', uploadFile("product").single('image'), productController.store)
+router.post('/api/products', uploadFile("product", filetypes_image).single('image'), productController.store)
 
 //destroy
 router.delete('/api/products/:product_id', productController.destroy)
