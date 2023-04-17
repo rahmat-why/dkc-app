@@ -1,4 +1,5 @@
 import express from 'express'
+import 'dotenv/config'
 
 import routes from './routes/routes.js'
 import cors from 'cors'
@@ -17,4 +18,5 @@ app.use(express.json())
 
 app.use('/', routes)
 
-app.listen(3000, () => console.log("server berjalan pada http://localhost:3000"))
+const port = process.env.PORT
+app.listen(port, () => console.log("server berjalan pada http://localhost:"+port))
