@@ -10,6 +10,16 @@ export async function getAll(req, res) {
     }
 }
 
+export async function getByYear(req, res) {
+    try {
+        const { year } = req.params
+        const program_dkcs = await program_dkcModel.getByYear(year);
+        return response(res, 200, true, "Success", program_dkcs)
+    }catch(e) {
+        return response(res, 500, false, e, {})
+    }
+}
+
 export async function update(req, res) {
     try{
         const { program_id } = req.params
