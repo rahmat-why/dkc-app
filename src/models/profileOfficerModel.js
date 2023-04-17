@@ -23,6 +23,15 @@ export const getAll = () => {
     return profile_officer;
 }
 
+export const getByScope = (scope_id) => {
+    const profile_officer = ProfileOfficer.findAll({
+        where: { scope_id : scope_id }
+      })
+
+    return profile_officer;
+}
+
+
 export const store = (name, nta, image, stage_id, scope_id, education, city, instagram, facebook) => {
     const officer_id = "OFC"+Math.random();
     const store = ProfileOfficer.create({
