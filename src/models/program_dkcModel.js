@@ -16,6 +16,14 @@ export const getAll = () => {
     return program_dkc;
 }
 
+export const getByYear = (year) => {
+    const program_dkc = Program_dkc.findAll({
+        where : {year : year}
+    })
+
+    return program_dkc;
+}
+
 export const store = (program_name, year) => {
     const program_id = "PRC"+Math.random();
     const store = Program_dkc.create({
