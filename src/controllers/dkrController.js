@@ -10,6 +10,16 @@ export async function getAll(req, res) {
     }
 }
 
+export async function getByArea(req, res) {
+    try {
+        const { area_id } = req.params
+        const dkrs = await dkrModel.getByArea(area_id);
+        return response(res, 200, true, "Success", dkrs)
+    }catch(e) {
+        return response(res, 500, false, e, {})
+    }
+}
+
 export async function store(req, res) {
     try {
         const { name, area_id, username, password } = req.body
