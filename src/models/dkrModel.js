@@ -19,6 +19,14 @@ export const getAll = () => {
     return dkrs;
 }
 
+export const getByArea = (area_id) => {
+    const dkrs = Dkr.findAll({
+        where : { area_id : area_id}
+    })
+
+    return dkrs;
+}
+
 export const store = (name, area_id, username, password) => {
     const dkr_id = "DKR"+Math.random();
     const store = Dkr.create({
