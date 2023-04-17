@@ -55,4 +55,4 @@ export const destroy = (school_id) => {
     });
 
     return destroy
-}
+}               
