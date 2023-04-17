@@ -15,10 +15,11 @@ export const GpReportDkr = connection.define('gp_report_dkr', {
 
 GpReportDkr.belongsTo(Dkr, { foreignKey: 'dkr_id' });
 
-export const getAll = (dkr_id) => {
+export const getAll = (dkr_id, type) => {
     const gp_report_dkr = GpReportDkr.findAll({
         where: {
-            dkr_id: dkr_id
+            dkr_id: dkr_id,
+            type: type
         },
         include: Dkr
     })

@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 import connection from "../config/db.config.js";
 
-export const Scout_document = connection.define('scout-documents', {
+export const Scout_document = connection.define('scout_documents', {
     
     document_id: {
         primaryKey: true,

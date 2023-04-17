@@ -1,5 +1,7 @@
 import { Sequelize } from "sequelize";
 import connection from '../config/db.config.js'
+import { School } from "./schoolModel.js";
+import { Stage } from "./stageModel.js";
 
 export const DataPotensi = connection.define('data_potensi', {
     data_id: {
@@ -13,8 +15,17 @@ export const DataPotensi = connection.define('data_potensi', {
     year: Sequelize.STRING
 });
 
-export const getAll = () => {
-    const data_potensi = DataPotensi.findAll()
+DataPotensi.belongsTo(School, { foreignKey: 'school_id' });
+DataPotensi.belongsTo(Stage, { foreignKey: 'stage_id' });
+
+export const getAll = (dkr_id, school_id) => {
+    const data_potensi = DataPotensi.findAll({
+        where:{
+            school_id: school_id,
+            dkr_id: dkr_id
+        },
+        include: [School, Stage]
+    })
 
     return data_potensi;
 }

@@ -76,7 +76,7 @@ router.put('/api/schools/:school_id', loginMiddleware, upload.fields([
 router.delete('/api/schools/:school_id', loginMiddleware, schoolController.destroy)
 
 // gp report dkr
-router.get('/api/gp-reports/:dkr_id', gpReportDkrController.getAll)
+router.get('/api/gp-reports/:type/:dkr_id', gpReportDkrController.getAll)
 router.post('/api/gp-reports', uploadFile("gp-report", filetypes_document).single('document'), gpReportDkrController.store)
 router.delete('/api/gp-reports/:report_id', gpReportDkrController.destroy)
 
@@ -133,7 +133,7 @@ router.post('/api/sk-dkr', loginMiddleware, uploadFile("sk-dkr", filetypes_docum
 router.delete('/api/sk-dkr/:sk_id', loginMiddleware, skDkrController.destroy)
 
 // data potensi
-router.get('/api/data-potensi', dataPotensiController.getAll)
+router.get('/api/data-potensi/:school_id/:dkr_id', dataPotensiController.getAll)
 
 // router.post('/api/data-potensi', upload.fields([
 //     { name: 'month', maxCount: 1 },
