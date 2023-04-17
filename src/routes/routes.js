@@ -5,6 +5,7 @@ import * as programDkrController from "./../controllers/programDkrController.js"
 import * as structureDkrController from "./../controllers/structureDkrController.js"
 import * as dkrController from "./../controllers/dkrController.js"
 import * as profileOfficerController from "./../controllers/profileOfficerController.js"
+import * as areaCoordinatorController from "./../controllers/areaCoordinatorController.js"
 
 import multer from 'multer';
 import path from 'path'
@@ -112,9 +113,14 @@ router.put('/api/dkr/:dkr_id', upload.fields([
 
 router.delete('/api/dkr/:dkr_id', dkrController.destroy)
 
-// structure dkr
+// profile officer
 router.get('/api/officers', profileOfficerController.getAll)
 router.post('/api/officers', uploadFile("profile-officer", filetypes_image).single('image'), profileOfficerController.store)
 router.delete('/api/officers/:officer_id', profileOfficerController.destroy)
+
+// area coordinator
+router.get('/api/area-coordinators', areaCoordinatorController.getAll)
+router.post('/api/area-coordinators', uploadFile("profile-officer", filetypes_image).single('image'), areaCoordinatorController.store)
+router.delete('/api/area-coordinators/:coordinator_id', areaCoordinatorController.destroy)
 
 export default router
