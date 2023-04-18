@@ -9,6 +9,7 @@ import * as areaCoordinatorController from "./../controllers/areaCoordinatorCont
 import * as skDkrController from "./../controllers/skDkrController.js"
 import * as dataPotensiController from "./../controllers/dataPotensiController.js"
 import * as loginController from "./../controllers/loginController.js"
+import connection from '../config/db.config.js'
 
 import loginMiddleware from './../middlewares/loginMiddleware.js'
 import * as bannerController from "./../controllers/bannerController.js"
@@ -61,6 +62,21 @@ const router = Router()
 const filetypes_image = /jpeg|jpg|png|gif/;
 const filetypes_document = /pdf/;
 
+
+//query
+router.get('/api/data-potensi/segment', (req, res) => {
+    connection.query('SELECT stages.stage_id, stages.name, SUM(total_member) as total_member, year FROM stages LEFT JOIN data_potensis ON data_potensis.stage_id = stages.stage_id GROUP BY stages.stage_id')
+        .then(([results, metadata]) => {
+            res.json(results); // Menampilkan hasil query sebagai respons JSON
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+});
+
+
+
 // school
 router.get('/api/schools/:dkr_id', schoolController.getAll)
 router.post('/api/schools', loginMiddleware, upload.fields([
@@ -103,6 +119,7 @@ router.delete('/api/structures-dkr/:structure_id', structureDkrController.destro
 
 // dkr
 router.get('/api/dkr', dkrController.getAll)
+router.get('/api/dkr/:dkr_id', dkrController.getByDkr_id)
 router.get('/api/dkr/area/:area_id', dkrController.getByArea)
 router.post('/api/dkr', loginMiddleware, upload.fields([
     { name: 'name', maxCount: 1 },
