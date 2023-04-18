@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 
-const connection = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.PASSWORD, {
-    host: process.env.HOST,
+const connection = new Sequelize("db_dkc", "root", "", {
+    host: "localhost",
     dialect: 'mysql',
     pool: {
         max: 5,

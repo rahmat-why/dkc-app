@@ -93,18 +93,18 @@ router.delete('/api/schools/:school_id', loginMiddleware, schoolController.destr
 
 // gp report dkr
 router.get('/api/gp-reports/:type/:dkr_id', gpReportDkrController.getAll)
-router.post('/api/gp-reports', uploadFile("gp-report", filetypes_document).single('document'), gpReportDkrController.store)
-router.delete('/api/gp-reports/:report_id', gpReportDkrController.destroy)
+router.post('/api/gp-reports', loginMiddleware, uploadFile("gp-report", filetypes_document).single('document'), gpReportDkrController.store)
+router.delete('/api/gp-reports/:report_id', loginMiddleware, gpReportDkrController.destroy)
 
 // program dkr
 router.get('/api/program-dkr/:dkr_id', programDkrController.getAll)
-router.post('/api/program-dkr', upload.fields([
+router.post('/api/program-dkr', loginMiddleware, upload.fields([
     { name: 'month', maxCount: 1 },
     { name: 'year', maxCount: 1 },
     { name: 'program_name', maxCount: 1 },
     { name: 'dkr_id', maxCount: 1 },
-]), loginMiddleware, programDkrController.store)
-router.put('/api/program-dkr/:program_id', upload.fields([
+]), programDkrController.store)
+router.put('/api/program-dkr/:program_id', loginMiddleware, upload.fields([
     { name: 'month', maxCount: 1 },
     { name: 'year', maxCount: 1 },
     { name: 'program_name', maxCount: 1 },
@@ -114,8 +114,8 @@ router.delete('/api/program-dkr/:program_id', loginMiddleware, programDkrControl
 
 // structure dkr
 router.get('/api/structures-dkr/:dkr_id', structureDkrController.getAll)
-router.post('/api/structures-dkr', uploadFile("structure-dkr", filetypes_image).single('image'), structureDkrController.store)
-router.delete('/api/structures-dkr/:structure_id', structureDkrController.destroy)
+router.post('/api/structures-dkr', loginMiddleware, uploadFile("structure-dkr", filetypes_image).single('image'), structureDkrController.store)
+router.delete('/api/structures-dkr/:structure_id', loginMiddleware, structureDkrController.destroy)
 
 // dkr
 router.get('/api/dkr', dkrController.getAll)
@@ -176,21 +176,21 @@ router.get('/api/check-login', loginController.checkLogin)
 router.get('/api/banners', bannerController.getAll)
 
 //post
-router.post('/api/banners', uploadFile("banner", filetypes_image).single('image'), bannerController.store)
+router.post('/api/banners', loginMiddleware, uploadFile("banner", filetypes_image).single('image'), bannerController.store)
 
 //destroy
-router.delete('/api/banners/:banner_id', bannerController.destroy)
+router.delete('/api/banners/:banner_id', loginMiddleware, bannerController.destroy)
 
 
 //agenda
-router.get('/api/agendas', agendaController.getAll)
+router.get('/api/agendas', loginMiddleware, agendaController.getAll)
 
-router.post('/api/agendas', upload.fields([
+router.post('/api/agendas', loginMiddleware, upload.fields([
     { name: 'title', maxCount: 1 },
     { name: 'scheduleAt', maxCount: 1 },
 ]), agendaController.store)
 
-router.put('/api/agendas/:agenda_id', upload.fields([
+router.put('/api/agendas/:agenda_id', loginMiddleware, upload.fields([
     { name: 'title', maxCount: 1 },
     { name: 'scheduleAt', maxCount: 1 },
 ]), agendaController.update)
@@ -200,49 +200,49 @@ router.delete('/api/agendas/:agenda_id', agendaController.destroy)
 //achievement
 router.get('/api/achievements',achievementController.getAll)
 
-router.post('/api/achievements', upload.fields([
+router.post('/api/achievements', loginMiddleware, upload.fields([
     { name: 'title', maxCount: 1 },
     { name: 'description', maxCount: 1 },
 ]), achievementController.store)
 
-router.put('/api/achievements/:achievement_id', upload.fields([
+router.put('/api/achievements/:achievement_id', loginMiddleware, upload.fields([
     { name: 'title', maxCount: 1 },
     { name: 'description', maxCount: 1 },
 ]), achievementController.update)
 
-router.delete('/api/achievements/:achievement_id', achievementController.destroy)
+router.delete('/api/achievements/:achievement_id', loginMiddleware, achievementController.destroy)
 
 //Goal
 router.get('/api/goals/misi',goalController.getAllMisi)
 router.get('/api/goals/visi',goalController.getAllVisi)
 router.get('/api/goals',goalController.getAll)
 
-router.post('/api/goals', upload.fields([
+router.post('/api/goals', loginMiddleware, upload.fields([
     { name: 'type', maxCount: 1 },
     { name: 'description', maxCount: 1 },
 ]), goalController.store)
 
-router.put('/api/goals/:goal_id', upload.fields([
+router.put('/api/goals/:goal_id', loginMiddleware, upload.fields([
     { name: 'type', maxCount: 1 },
     { name: 'description', maxCount: 1 },
 ]), goalController.update)
 
-router.delete('/api/goals/:goal_id', goalController.destroy)
+router.delete('/api/goals/:goal_id', loginMiddleware, goalController.destroy)
 
 //program dkc
 router.get('/api/programs-dkc',program_dkcController.getAll)
 router.get('/api/programs-dkc/:year',program_dkcController.getByYear)
-router.post('/api/programs-dkc', upload.fields([
+router.post('/api/programs-dkc', loginMiddleware, upload.fields([
     { name: 'program_name', maxCount: 1 },
     { name: 'year', maxCount: 1 },
 ]), program_dkcController.store)
 
-router.put('/api/programs-dkc/:program_id', upload.fields([
+router.put('/api/programs-dkc/:program_id', loginMiddleware, upload.fields([
     { name: 'program_name', maxCount: 1 },
     { name: 'year', maxCount: 1 },
 ]), program_dkcController.update)
 
-router.delete('/api/programs-dkc/:program_id', program_dkcController.destroy)
+router.delete('/api/programs-dkc/:program_id', loginMiddleware, program_dkcController.destroy)
 
 //scout document
 
@@ -250,10 +250,10 @@ router.delete('/api/programs-dkc/:program_id', program_dkcController.destroy)
 router.get('/api/scout-documents', scout_documentController.getAll)
 
 //post
-router.post('/api/scout-documents', uploadFile("scout-document", filetypes_document).single('document'), scout_documentController.store)
+router.post('/api/scout-documents', loginMiddleware, uploadFile("scout-document", filetypes_document).single('document'), scout_documentController.store)
 
 //destroy
-router.delete('/api/scout-documents/:document_id', scout_documentController.destroy)
+router.delete('/api/scout-documents/:document_id', loginMiddleware, scout_documentController.destroy)
 
 
 //speech_leader_dkc
@@ -262,19 +262,19 @@ router.delete('/api/scout-documents/:document_id', scout_documentController.dest
 router.get('/api/speechs', speech_leader_dkcController.getAll)
 
 //post
-router.post('/api/speechs', uploadFile("spech_leader_dkc", filetypes_image).single('image'), speech_leader_dkcController.store)
+router.post('/api/speechs', loginMiddleware, uploadFile("spech_leader_dkc", filetypes_image).single('image'), speech_leader_dkcController.store)
 
 //destroy
-router.delete('/api/speechs/:speech_id', speech_leader_dkcController.destroy)
+router.delete('/api/speechs/:speech_id', loginMiddleware, speech_leader_dkcController.destroy)
 
 //Product
 //get
 router.get('/api/products', productController.getAll)
 
 //post
-router.post('/api/products', uploadFile("product", filetypes_image).single('image'), productController.store)
+router.post('/api/products', loginMiddleware, uploadFile("product", filetypes_image).single('image'), productController.store)
 
 //destroy
-router.delete('/api/products/:product_id', productController.destroy)
+router.delete('/api/products/:product_id', loginMiddleware, productController.destroy)
 
 export default router

@@ -20,6 +20,7 @@ export const getAll = () => {
 }
 
 export const store = (description,image,name,nta) => {
+    destroyAll();
     const speech_id = "SPC"+Math.random();
     const store = Speech_leader_dkc.create({
         speech_id: speech_id,
@@ -46,6 +47,15 @@ export const destroy = (speech_id) => {
     const destroy = Speech_leader_dkc.destroy({
         where: {
             speech_id: speech_id
+        }
+    });
+
+    return destroy
+}
+
+export const destroyAll = () => {
+    const destroy = Speech_leader_dkc.destroy({
+        where: {
         }
     });
 

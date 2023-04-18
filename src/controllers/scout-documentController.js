@@ -28,7 +28,7 @@ export async function destroy(req, res) {
     try{
         const { document_id } = req.params
         const scout_document = await scout_documentModel.destroy(document_id);
-        return response(res, 500, false, "Success", scout_document)
+        return response(res, 200, true, "Success", scout_document)
     }catch(e) {
         return response(res, 500, false, e, {})
     }

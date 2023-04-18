@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import connection from '../config/db.config.js'
-import jwt from "jsonwebtoken";
+import { Area } from "./areaModel.js";
 
 export const Dkr = connection.define('dkrs', {
     dkr_id: {
@@ -13,8 +13,12 @@ export const Dkr = connection.define('dkrs', {
     password: Sequelize.STRING
 });
 
+Dkr.belongsTo(Area, { foreignKey: 'area_id' });
+
 export const getAll = () => {
-    const dkrs = Dkr.findAll()
+    const dkrs = Dkr.findAll({
+        include: Area
+    })
 
     return dkrs;
 }

@@ -28,7 +28,7 @@ export async function destroy(req, res) {
     try{
         const { product_id } = req.params
         const product = await productModel.destroy(product_id);
-        return response(res, 500, false, "Success", product)
+        return response(res, 200, true, "Success", product)
     }catch(e) {
         return response(res, 500, false, e, {})
     }
