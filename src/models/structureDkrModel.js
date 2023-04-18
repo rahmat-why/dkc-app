@@ -26,21 +26,24 @@ export const getAll = (dkr_id) => {
 }
 
 export const store = (dkr_id, image, year) => {
-    const report_id = "STRC"+Math.random();
-    const store = StructureDkr.create({
-        report_id: report_id,
-        dkr_id: dkr_id,
-        image: image,
-        year: year
-    })
-    
-    return store;
+    const destroy_sctructure = destroy(dkr_id)
+    if(destroy_sctructure){
+        const structure_id = "STRC"+Math.random();
+        const store = StructureDkr.create({
+            structure_id: structure_id,
+            dkr_id: dkr_id,
+            image: image,
+            year: year
+        })
+        
+        return store;
+    }
 }
 
-export const destroy = (report_id) => {
+export const destroy = (dkr_id) => {
     const destroy = StructureDkr.destroy({
         where: {
-            report_id: report_id
+            dkr_id: dkr_id
         }
     });
 

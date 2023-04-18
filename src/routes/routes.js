@@ -65,7 +65,7 @@ const filetypes_document = /pdf/;
 
 //query
 router.get('/api/data-potensi/segment', (req, res) => {
-    connection.query('SELECT stages.stage_id, stages.name, SUM(total_member) as total_member, year FROM stages LEFT JOIN data_potensis ON data_potensis.stage_id = stages.stage_id GROUP BY stages.stage_id')
+    connection.query('SELECT stages.name, IFNULL(SUM(total_member), 0) as value FROM stages LEFT JOIN data_potensis ON data_potensis.stage_id = stages.stage_id GROUP BY stages.stage_id')
         .then(([results, metadata]) => {
             res.json(results); // Menampilkan hasil query sebagai respons JSON
         })
@@ -93,12 +93,12 @@ router.delete('/api/schools/:school_id', loginMiddleware, schoolController.destr
 
 // gp report dkr
 router.get('/api/gp-reports/:type/:dkr_id', gpReportDkrController.getAll)
-router.post('/api/gp-reports', loginMiddleware, uploadFile("gp-report", filetypes_document).single('document'), gpReportDkrController.store)
+router.post('/api/gp-reports/:dkr_id', loginMiddleware, uploadFile("gp-report", filetypes_document).single('document'), gpReportDkrController.store)
 router.delete('/api/gp-reports/:report_id', loginMiddleware, gpReportDkrController.destroy)
 
 // program dkr
 router.get('/api/program-dkr/:dkr_id', programDkrController.getAll)
-router.post('/api/program-dkr', loginMiddleware, upload.fields([
+router.post('/api/program-dkr/:dkr_id', loginMiddleware, upload.fields([
     { name: 'month', maxCount: 1 },
     { name: 'year', maxCount: 1 },
     { name: 'program_name', maxCount: 1 },
@@ -114,7 +114,7 @@ router.delete('/api/program-dkr/:program_id', loginMiddleware, programDkrControl
 
 // structure dkr
 router.get('/api/structures-dkr/:dkr_id', structureDkrController.getAll)
-router.post('/api/structures-dkr', loginMiddleware, uploadFile("structure-dkr", filetypes_image).single('image'), structureDkrController.store)
+router.post('/api/structures-dkr/:dkr_id', loginMiddleware, uploadFile("structure-dkr", filetypes_image).single('image'), structureDkrController.store)
 router.delete('/api/structures-dkr/:structure_id', loginMiddleware, structureDkrController.destroy)
 
 // dkr
@@ -143,12 +143,12 @@ router.delete('/api/officers/:officer_id', loginMiddleware, profileOfficerContro
 
 // area coordinator
 router.get('/api/area-coordinators', areaCoordinatorController.getAll)
-router.post('/api/area-coordinators', loginMiddleware, uploadFile("profile-officer", filetypes_image).single('image'), areaCoordinatorController.store)
+router.post('/api/area-coordinators', loginMiddleware, uploadFile("area-coordinator", filetypes_image).single('image'), areaCoordinatorController.store)
 router.delete('/api/area-coordinators/:coordinator_id', loginMiddleware, areaCoordinatorController.destroy)
 
 // sk dkr
 router.get('/api/sk-dkr/:dkr_id', skDkrController.getAll)
-router.post('/api/sk-dkr', loginMiddleware, uploadFile("sk-dkr", filetypes_document).single('document'), skDkrController.store)
+router.post('/api/sk-dkr/:dkr_id', loginMiddleware, uploadFile("sk-dkr", filetypes_document).single('document'), skDkrController.store)
 router.delete('/api/sk-dkr/:sk_id', loginMiddleware, skDkrController.destroy)
 
 // data potensi
@@ -183,7 +183,7 @@ router.delete('/api/banners/:banner_id', loginMiddleware, bannerController.destr
 
 
 //agenda
-router.get('/api/agendas', loginMiddleware, agendaController.getAll)
+router.get('/api/agendas', agendaController.getAll)
 
 router.post('/api/agendas', loginMiddleware, upload.fields([
     { name: 'title', maxCount: 1 },

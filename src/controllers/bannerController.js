@@ -28,7 +28,7 @@ export async function destroy(req, res) {
     try{
         const { banner_id } = req.params
         const banners = await bannerModel.destroy(banner_id);
-        return response(res, 500, false, "Success", banners)
+        return response(res, 200, true, "Success", banners)
     }catch(e) {
         return response(res, 500, false, e, {})
     }

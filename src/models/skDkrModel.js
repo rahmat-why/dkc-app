@@ -26,21 +26,25 @@ export const getAll = (dkr_id) => {
 }
 
 export const store = (dkr_id, document, year) => {
-    const sk_id = "SK"+Math.random();
-    const store = SkDkr.create({
-        sk_id: sk_id,
-        dkr_id: dkr_id,
-        document: document,
-        year: year
-    })
-    
-    return store;
+    const destroy_sk = destroy(dkr_id);
+
+    if(destroy_sk) {
+        const sk_id = "SK"+Math.random();
+        const store = SkDkr.create({
+            sk_id: sk_id,
+            dkr_id: dkr_id,
+            document: document,
+            year: year
+        })
+
+        return store;
+    }
 }
 
-export const destroy = (sk_id) => {
+export const destroy = (dkr_id) => {
     const destroy = SkDkr.destroy({
         where: {
-            sk_id: sk_id
+            dkr_id: dkr_id
         }
     });
 

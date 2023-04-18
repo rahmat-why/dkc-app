@@ -20,17 +20,19 @@ export const getAll = () => {
 }
 
 export const store = (description,image,name,nta) => {
-    destroyAll();
-    const speech_id = "SPC"+Math.random();
-    const store = Speech_leader_dkc.create({
-        speech_id: speech_id,
-        image: image,
-        description:description,
-        name: name,
-        nta: nta
-    })
-    
-    return store;
+    const destroy_all = destroyAll();
+    if(destroy_all) {
+        const speech_id = "SPC"+Math.random();
+        const store = Speech_leader_dkc.create({
+            speech_id: speech_id,
+            image: image,
+            description:description,
+            name: name,
+            nta: nta
+        })
+
+        return store;
+    }
 }
 
 export const update = (speech_id, update) => {

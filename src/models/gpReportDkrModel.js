@@ -28,7 +28,7 @@ export const getAll = (dkr_id, type) => {
     return gp_report_dkr;
 }
 
-export const store = (dkr_id, document, name, type) => {
+export const store = (dkr_id, document, name, type, year) => {
     const report_id = "RPR"+Math.random();
     const store = GpReportDkr.create({
         report_id: report_id,

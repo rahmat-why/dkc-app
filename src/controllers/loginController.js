@@ -9,13 +9,19 @@ export async function login(req, res) {
         if(!login) {
             return response(res, 500, false, "Incorrect", {})
         }else{
+            var type = "DKR"
+            if(login.dkr_id == "DKC") {
+                var type = "DKC"
+            }
+
             let data = {
                 data: login,
+                type: type,
                 loginAt: Date.now()
             }
 
             let token = authModel.generateToken(data)
-            return response(res, 200, false, "success", {token: token})
+            return response(res, 200, false, "success", {token: token, type: type})
         }
         
     }catch(e) {

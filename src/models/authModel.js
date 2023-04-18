@@ -24,6 +24,19 @@ export const store = (dkr_id, token) => {
 }
 
 export const login = (credential) => {
+    
+    if(credential.username == process.env.USER_DKC && credential.password == process.env.PASS_DKC) {
+        const data = {
+            dkr_id: "DKC",
+            name: "Admin DKC",
+            area_id: "Kab. Bogor",
+            createdAt: Date.now(),
+            updatedAt: Date.now()
+        }
+
+        return data
+    }
+
     const dkr = Dkr.findOne({
         where: credential
     })

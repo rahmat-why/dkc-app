@@ -13,7 +13,8 @@ export async function getAll(req, res) {
 
 export async function store(req, res) {
     try {
-        const { dkr_id, year } = req.body
+        const { dkr_id } = req.params
+        const { year } = req.body
         const { filename } = req.file
         
         const image_url = "/structure-dkr/"+filename;

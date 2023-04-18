@@ -13,12 +13,13 @@ export async function getAll(req, res) {
 
 export async function store(req, res) {
     try {
-        const { dkr_id, name, type } = req.body
+        const { dkr_id } = req.params
+        const { name, type, year } = req.body
         const { filename } = req.file
         
         const document_url = "/gp-report-dkr/"+filename;
 
-        const gp_report = await gpReportDkrModel.store(dkr_id, document_url, name, type);
+        const gp_report = await gpReportDkrModel.store(dkr_id, document_url, name, type, year);
         return response(res, 200, false, "Success", gp_report)
     }catch(e) {
         return response(res, 500, false, e, {})

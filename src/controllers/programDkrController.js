@@ -13,7 +13,8 @@ export async function getAll(req, res) {
 
 export async function store(req, res) {
     try {
-        const { dkr_id, month, year, program_name } = req.body
+        const { dkr_id } = req.params
+        const { month, year, program_name } = req.body
         const program_dkrs = await programDkrModel.store(dkr_id, month, year, program_name);
         return response(res, 200, false, "Success", program_dkrs)
     }catch(e) {

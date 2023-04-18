@@ -17,8 +17,10 @@ AreaCoordinator.belongsTo(Area, {foreignKey : 'area_id'})
 
 export const getAll = () => {
     const area_coordinator = AreaCoordinator.findAll({
-        include : Area
-
+        where: {
+            
+        },
+        include: Area
     })
 
     return area_coordinator;

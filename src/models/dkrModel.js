@@ -17,7 +17,8 @@ Dkr.belongsTo(Area, { foreignKey: 'area_id' });
 
 export const getAll = () => {
     const dkrs = Dkr.findAll({
-        include: Area
+        include: Area,
+        attributes: ["dkr_id", "area_id", 'name', "username"]
     })
 
     return dkrs;
