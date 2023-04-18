@@ -10,6 +10,16 @@ export async function getAll(req, res) {
     }
 }
 
+export async function getByDkr_id(req, res) {
+    try {
+        const { dkr_id } = req.params
+        const dkrs = await dkrModel.getByDkr_id(dkr_id);
+        return response(res, 200, true, "Success", dkrs)
+    }catch(e) {
+        return response(res, 500, false, e, {})
+    }
+}
+
 export async function getByArea(req, res) {
     try {
         const { area_id } = req.params
