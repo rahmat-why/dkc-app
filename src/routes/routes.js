@@ -75,19 +75,27 @@ router.get('/api/data-potensi/segment', (req, res) => {
         });
 });
 
-
+router.get('/api/data-potensi/:school_id/:dkr_id', (req, res) => {
+    const { dkr_id, school_id } = req.params
+    connection.query('SELECT stages.stage_id, stages.name as stage_name, IFNULL(total_member, 0) as total_member FROM stages LEFT JOIN ( SELECT stage_id, total_member FROM data_potensis WHERE school_id = "'+school_id+'" AND dkr_id = "'+dkr_id+'" ) dp ON dp.stage_id = stages.stage_id')
+        .then(([results, metadata]) => {
+            res.json(results); // Menampilkan hasil query sebagai respons JSON
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error!' });
+        });
+});
 
 // school
 router.get('/api/schools/:dkr_id', schoolController.getAll)
-router.post('/api/schools', loginMiddleware, upload.fields([
+router.post('/api/schools/:dkr_id', loginMiddleware, upload.fields([
     { name: 'school_name', maxCount: 1 },
-    { name: 'gudep_number', maxCount: 1 },
-    { name: 'dkr_id', maxCount: 1 },
+    { name: 'gudep_number', maxCount: 1 }
 ]), schoolController.store)
 router.put('/api/schools/:school_id', loginMiddleware, upload.fields([
     { name: 'school_name', maxCount: 1 },
-    { name: 'gudep_number', maxCount: 1 },
-    { name: 'dkr_id', maxCount: 1 },
+    { name: 'gudep_number', maxCount: 1 }
 ]), schoolController.update)
 router.delete('/api/schools/:school_id', loginMiddleware, schoolController.destroy)
 
@@ -151,15 +159,10 @@ router.get('/api/sk-dkr/:dkr_id', skDkrController.getAll)
 router.post('/api/sk-dkr/:dkr_id', loginMiddleware, uploadFile("sk-dkr", filetypes_document).single('document'), skDkrController.store)
 router.delete('/api/sk-dkr/:sk_id', loginMiddleware, skDkrController.destroy)
 
-// data potensi
-router.get('/api/data-potensi/:school_id/:dkr_id', dataPotensiController.getAll)
-
-// router.post('/api/data-potensi', upload.fields([
-//     { name: 'month', maxCount: 1 },
-//     { name: 'year', maxCount: 1 },
-//     { name: 'program_name', maxCount: 1 },
-//     { name: 'dkr_id', maxCount: 1 },
-// ]), dataPotensiController.store)
+router.post('/api/data-potensi/:dkr_id', upload.fields([
+    { name: 'school_id', maxCount: 1 },
+    { name: 'data', maxCount: 1 }
+]), dataPotensiController.store)
 
 // login
 router.post('/api/login', upload.fields([

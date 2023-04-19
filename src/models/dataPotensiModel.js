@@ -15,7 +15,6 @@ export const DataPotensi = connection.define('data_potensi', {
     year: Sequelize.STRING
 });
 
-DataPotensi.belongsTo(School, { foreignKey: 'school_id' });
 DataPotensi.belongsTo(Stage, { foreignKey: 'stage_id' });
 
 export const getAll = (dkr_id, school_id) => {

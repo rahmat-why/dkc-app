@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import connection from '../config/db.config.js'
 import { Dkr } from "./dkrModel.js";
+import { DataPotensi } from "./dataPotensiModel.js";
 
 export const School = connection.define('school', {
     school_id: {
@@ -47,12 +48,24 @@ export const update = (school_id, update) => {
     return edit
 }
 
-export const destroy = (school_id) => {
-    const destroy = School.destroy({
+export const destroy = async (school_id) => {
+    const school = await School.findOne({
         where: {
             school_id: school_id
         }
     });
 
-    return destroy
+    const destroy = await School.destroy({
+        where: {
+            school_id: school_id
+        }
+    });
+
+    const destroy_potensi = await DataPotensi.destroy({
+        where: {
+            dkr_id: school.dkr_id
+        }
+    });
+
+    return [destroy, destroy_potensi]
 }               

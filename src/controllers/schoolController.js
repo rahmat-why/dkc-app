@@ -13,7 +13,8 @@ export async function getAll(req, res) {
 
 export async function store(req, res) {
     try {
-        const { dkr_id, gudep_number, school_name } = req.body
+        const { dkr_id } = req.params
+        const { gudep_number, school_name } = req.body
         const schools = await schoolModel.store(dkr_id, gudep_number, school_name);
         return response(res, 200, true, "Success", schools)
     }catch(e) {
