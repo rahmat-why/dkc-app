@@ -43,10 +43,11 @@ export const store = (dkr_id, school_id, stage_id, total_member, year) => {
     return store;
 }
 
-export const destroy = (dkr_id) => {
+export const destroy = (dkr_id, school_id) => {
     const destroy = DataPotensi.destroy({
         where: {
-            dkr_id: dkr_id
+            dkr_id: dkr_id,
+            school_id
         }
     });
 

@@ -19,7 +19,7 @@ export async function store(req, res) {
 
         console.log(JSON.stringify(dkr_id, school_id, data))
 
-        await dataPotensiModel.destroy(dkr_id);
+        await dataPotensiModel.destroy(dkr_id, school_id);
         for (const element of data) {
             await dataPotensiModel.store(dkr_id, school_id, element.stage_id, element.total_member, new Date().getFullYear());
         }
