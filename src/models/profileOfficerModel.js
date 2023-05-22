@@ -40,7 +40,15 @@ export const getAll = () => {
 
 export const getByScope = (scope_id) => {
     const profile_officer = ProfileOfficer.findAll({
-        where: { scope_id : scope_id }
+        where: { scope_id : scope_id },
+        include: [
+          {
+            model: Scope,
+          },
+          {
+            model: Stage,
+          },
+        ],
       })
 
     return profile_officer;
