@@ -34,7 +34,8 @@ export const getByDkr_id = (dkr_id) => {
 
 export const getByArea = (area_id) => {
     const dkrs = Dkr.findAll({
-        where : { area_id : area_id}
+        where : { area_id : area_id},
+        attributes: ["dkr_id", "area_id", 'name']
     })
 
     return dkrs;

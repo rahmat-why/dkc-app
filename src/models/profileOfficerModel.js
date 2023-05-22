@@ -16,7 +16,8 @@ export const ProfileOfficer = connection.define('profile_officer', {
     education: Sequelize.STRING,
     city: Sequelize.STRING,
     instagram: Sequelize.STRING,
-    facebook: Sequelize.STRING
+    facebook: Sequelize.STRING,
+    position: Sequelize.STRING
 });
 
 ProfileOfficer.belongsTo(Scope, { foreignKey: 'scope_id' });
@@ -46,7 +47,7 @@ export const getByScope = (scope_id) => {
 }
 
 
-export const store = (name, nta, image, stage_id, scope_id, education, city, instagram, facebook) => {
+export const store = (name, nta, image, stage_id, scope_id, education, city, instagram, facebook, position) => {
     const officer_id = "OFC"+Math.random();
     const store = ProfileOfficer.create({
         officer_id: officer_id,
@@ -58,7 +59,8 @@ export const store = (name, nta, image, stage_id, scope_id, education, city, ins
         education: education,
         city: city,
         instagram: instagram,
-        facebook: facebook
+        facebook: facebook,
+        position: position
     })
     
     return store;
