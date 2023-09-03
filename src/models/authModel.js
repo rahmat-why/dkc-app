@@ -46,9 +46,6 @@ export const login = (credential) => {
 
 export const generateToken = (data) => {
     let token = jwt.sign(data, 'shhhhh', { expiresIn: '365d' });
-    
-    // log
-    store(data.data.dkr_id, token)
 
     return token;
 }
