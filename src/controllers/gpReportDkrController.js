@@ -17,7 +17,7 @@ export async function store(req, res) {
         const { name, type, year } = req.body
         const { filename } = req.file
         
-        const document_url = "/gp-report-dkr/"+filename;
+        const document_url = "/gp-report/"+filename;
 
         const gp_report = await gpReportDkrModel.store(dkr_id, document_url, name, type, year);
         return response(res, 200, false, "Success", gp_report)
