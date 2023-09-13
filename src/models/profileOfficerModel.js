@@ -25,6 +25,9 @@ ProfileOfficer.belongsTo(Stage, { foreignKey: 'stage_id' });
 
 export const getAll = () => {
   const profile_officer = ProfileOfficer.findAll({
+    order: [
+      [Sequelize.literal("position='ANGGOTA', position='BENDAHARA', position='SEKRETARIS II', position='SEKRETARIS', position='WAKIL KETUA', position='KETUA'")],
+    ],
     include: [
       {
         model: Scope,
@@ -49,6 +52,9 @@ export const getByScope = (scope_id) => {
             model: Stage,
           },
         ],
+        order: [
+          [Sequelize.literal("position='ANGGOTA', position='BENDAHARA', position='SEKRETARIS II', position='SEKRETARIS', position='WAKIL KETUA', position='KETUA'")],
+        ]
       })
 
     return profile_officer;

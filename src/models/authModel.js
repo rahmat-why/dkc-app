@@ -25,7 +25,7 @@ export const store = (dkr_id, token) => {
 
 export const login = (credential) => {
     
-    if(credential.username == process.env.USER_DKC && credential.password == process.env.PASS_DKC) {
+    if(credential.username == "dkc123" && credential.password == "pass123") {
         const data = {
             dkr_id: "DKC",
             name: "Admin DKC",
