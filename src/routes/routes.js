@@ -9,6 +9,7 @@ import * as areaCoordinatorController from "./../controllers/areaCoordinatorCont
 import * as skDkrController from "./../controllers/skDkrController.js"
 import * as dataPotensiController from "./../controllers/dataPotensiController.js"
 import * as loginController from "./../controllers/loginController.js"
+import * as sakaController from "./../controllers/sakaController.js"
 import connection from '../config/db.config.js'
 
 import loginMiddleware from './../middlewares/loginMiddleware.js'
@@ -20,6 +21,9 @@ import * as program_dkcController from "./../controllers/program_dkcController.j
 import * as scout_documentController from "../controllers/scout-documentController.js"
 import * as speech_leader_dkcController from "./../controllers/speech_leader_dkcController.js"
 import * as productController from "./../controllers/productController.js"
+import * as reportSakaController from "./../controllers/reportSakaController.js"
+import * as DataPotensiSakaController from "./../controllers/dataPotensiSakaController.js"
+import * as exportController from "./../controllers/exportController.js";
 
 import multer from 'multer';
 import path from 'path'
@@ -78,6 +82,18 @@ router.get('/api/data-potensi/segment', (req, res) => {
 router.get('/api/data-potensi/:school_id/:dkr_id', (req, res) => {
     const { dkr_id, school_id } = req.params
     connection.query('SELECT stages.stage_id, stages.name as stage_name, IFNULL(total_member, 0) as total_member FROM stages LEFT JOIN ( SELECT stage_id, total_member FROM data_potensis WHERE school_id = "'+school_id+'" AND dkr_id = "'+dkr_id+'" ) dp ON dp.stage_id = stages.stage_id')
+        .then(([results, metadata]) => {
+            res.json(results); // Menampilkan hasil query sebagai respons JSON
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error!' });
+        });
+});
+
+router.get('/api/data-potensi-sakas/:saka_id', (req, res) => {
+    const { saka_id } = req.params
+    connection.query('SELECT dkrs.dkr_id, dkrs.name, IFNULL(sq.mens_member, 0) as total_mens_member,IFNULL(sq.womens_member, 0) as total_womens_member FROM dkrs LEFT JOIN ( SELECT sq.dkr_id, SUM(sq.mens_member) as mens_member, SUM(sq.womens_member) as womens_member  FROM data_potensi_sakas sq WHERE sq.saka_id = "' + saka_id +'" GROUP BY sq.dkr_id ) AS sq on sq.dkr_id = dkrs.dkr_id')
         .then(([results, metadata]) => {
             res.json(results); // Menampilkan hasil query sebagai respons JSON
         })
@@ -279,5 +295,46 @@ router.post('/api/products', loginMiddleware, uploadFile("product", filetypes_im
 
 //destroy
 router.delete('/api/products/:product_id', loginMiddleware, productController.destroy)
+
+//Saka
+//get
+router.get('/api/sakas', sakaController.getAll);
+
+//post saka
+router.post('/api/saka', sakaController.store);
+
+//update sk_saka
+router.post('/api/saka/upload-sk_saka/:saka_id', uploadFile("sk_saka", filetypes_document).single('document'), sakaController.uploadDocumentSkSaka);
+
+//update sk_saka
+router.post('/api/saka/upload-sk_pinsaka/:saka_id', uploadFile("sk_pinsaka", filetypes_document).single('document'), sakaController.uploadDocumentSkPinsaka);
+
+//destroy
+router.delete('/api/saka/:saka_id', sakaController.destroy);
+
+//Report Saka
+//get
+router.get('/api/reportSakas', reportSakaController.getAll);
+
+//post Report Saka
+router.post('/api/reportSaka', uploadFile("report-saka", filetypes_document).single('document'), reportSakaController.store);
+
+//destroy
+router.delete('/api/reportSaka/:report_id', reportSakaController.destroy);
+
+
+//Data Potensi Saka
+//get
+router.get('/api/data-potensi-sakas', DataPotensiSakaController.getAll);
+
+//post
+router.post('/api/data-potensi-saka', DataPotensiSakaController.store)
+
+//export to excel data potensi saka
+router.get("/api/export-data-potensi-saka/:year", exportController.getDataExportDataPotensiSaka);
+
+//export to excel data potensi
+router.get("/api/export-data-potensi/:year", exportController.getDataExportDataPotensi)
+
 
 export default router
