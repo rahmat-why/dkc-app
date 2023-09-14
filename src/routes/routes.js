@@ -91,7 +91,9 @@ router.get('/api/data-potensi/segment', (req, res) => {
 
 router.get('/api/data-potensi/:school_id/:dkr_id', (req, res) => {
     const { dkr_id, school_id } = req.params
-    connection.query('SELECT stages.stage_id, stages.name as stage_name, IFNULL(total_member, 0) as total_member, IFNULL(mens_member, 0) as mens_member, IFNULL(womens_member, 0) as womens_member FROM stages LEFT JOIN ( SELECT stage_id, mens_member, womens_member, total_member FROM data_potensis WHERE school_id = "'+school_id+'" AND dkr_id = "'+dkr_id+'" ) dp ON dp.stage_id = stages.stage_id')
+    const current_year = new Date().getFullYear();
+
+    connection.query('SELECT stages.stage_id, stages.name as stage_name, IFNULL(total_member, 0) as total_member, IFNULL(mens_member, 0) as mens_member, IFNULL(womens_member, 0) as womens_member FROM stages LEFT JOIN ( SELECT stage_id, mens_member, womens_member, total_member FROM data_potensis WHERE school_id = "'+school_id+'" AND dkr_id = "'+dkr_id+'" AND year="'+current_year+'" ) dp ON dp.stage_id = stages.stage_id')
         .then(([results, metadata]) => {
             res.json(results); // Menampilkan hasil query sebagai respons JSON
         })
@@ -103,7 +105,9 @@ router.get('/api/data-potensi/:school_id/:dkr_id', (req, res) => {
 
 router.get('/api/data-potensi-saka/:saka_id', (req, res) => {
     const { saka_id } = req.params
-    connection.query('SELECT dkrs.dkr_id, dkrs.name, IFNULL(sq.mens_member, 0) as total_mens_member,IFNULL(sq.womens_member, 0) as total_womens_member FROM dkrs LEFT JOIN ( SELECT sq.dkr_id, SUM(sq.mens_member) as mens_member, SUM(sq.womens_member) as womens_member  FROM data_potensi_sakas sq WHERE sq.saka_id = "' + saka_id +'" GROUP BY sq.dkr_id ) AS sq on sq.dkr_id = dkrs.dkr_id')
+    const current_year = new Date().getFullYear();
+
+    connection.query('SELECT dkrs.dkr_id, dkrs.name, IFNULL(sq.mens_member, 0) as total_mens_member,IFNULL(sq.womens_member, 0) as total_womens_member FROM dkrs LEFT JOIN ( SELECT sq.dkr_id, SUM(sq.mens_member) as mens_member, SUM(sq.womens_member) as womens_member  FROM data_potensi_sakas sq WHERE sq.saka_id = "' + saka_id +'" AND year = "'+current_year+'" GROUP BY sq.dkr_id ) AS sq on sq.dkr_id = dkrs.dkr_id')
         .then(([results, metadata]) => {
             res.json(results); // Menampilkan hasil query sebagai respons JSON
         })
