@@ -32,7 +32,6 @@ export async function getDataExportDataPotensiSaka(req, res) {
       const filePath =`./upload/export-data-potensi-saka/${fileName}`; 
 
       exportDataPotensiSakatoExcel(datapotensisaka, workSheetColumnNames, workSheetName, filePath)
-
       
       //RESULT IF READ ALL DATA SUCCESSFUL
       return res.status(201).json({ success: true, message: "Export data successfully!", datapotensisaka });
@@ -61,7 +60,6 @@ export async function getDataExportDataPotensi(req, res) {
       const filePath =`./upload/export-data-potensi/${fileName}`; 
 
       exportDataPotensitoExcel(datapotensi, workSheetColumnNames, workSheetName, filePath)
-
       
       //RESULT IF READ ALL DATA SUCCESSFUL
       return res.status(201).json({ success: true, message: "Export data successfully!", datapotensi});
@@ -83,7 +81,7 @@ const exportExcel = (data, workSheetColumnNames, workSheetNames, filePath) => {
    xlsx.writeFile(workBook, path.resolve(filePath));
 }
 
-const exportDataPotensitoExcel = (datapotensi, workSheetColumnNames, workSheetName, filePath) => {
+const exportDataPotensitoExcelOld = (datapotensi, workSheetColumnNames, workSheetName, filePath) => {
    const data = datapotensi.map(data => {
        return [data.school_name, data['Calon Penegak_mens_member'], data['Calon Penegak_womens_member'], data['Penegak Bantara_mens_member'], data['Penegak Bantara_womens_member'], data['Penegak Laksana_mens_member'], data['Penegak Laksana_womens_member'], data['Penegak Garuda_mens_member'], data['Penegak Garuda_womens_member'], data['Calon Pandega_mens_member'], data['Calon Pandega_womens_member'], data['Pandega_mens_member'], data['Pandega_womens_member'], data['Pandega Garuda_mens_member'], data['Pandega Garuda_womens_member']];
    });
@@ -91,10 +89,28 @@ const exportDataPotensitoExcel = (datapotensi, workSheetColumnNames, workSheetNa
    exportExcel(data, workSheetColumnNames, workSheetName, filePath);
 }
 
-const exportDataPotensiSakatoExcel = (datapotensisaka, workSheetColumnNames, workSheetName, filePath) => {
+const exportDataPotensiSakatoExcelOld = (datapotensisaka, workSheetColumnNames, workSheetName, filePath) => {
    const data = datapotensisaka.map(dataPotensi => {
        return [dataPotensi.dkr_name, dataPotensi['Saka kesekian_mens_member'], dataPotensi['Saka kesekian_womens_member'], dataPotensi['Saka kesekian 2_mens_member'], dataPotensi['Saka kesekian 2_womens_member'], dataPotensi['Name2x_mens_member'], dataPotensi['Name2x_womens_member'], dataPotensi['Namexx_mens_member'], dataPotensi['Namexx_womens_member']];
    });
 
    exportExcel(data, workSheetColumnNames, workSheetName, filePath);
 }
+
+const exportDataPotensitoExcel = (dataPotensi, workSheetName, filePath) => {
+   const workSheetColumnNames = Object.keys(dataPotensi[0]);
+   const data = dataPotensi.map((dataPotensiItem) => {
+     return workSheetColumnNames.map((columnName) => dataPotensiItem[columnName]);
+   });
+ 
+   exportExcel(data, workSheetColumnNames, workSheetName, filePath);
+ };
+
+const exportDataPotensiSakatoExcel = (dataPotensiSaka, workSheetName, filePath) => {
+   const workSheetColumnNames = Object.keys(dataPotensiSaka[0]);
+   const data = dataPotensiSaka.map((dataPotensiSakaItem) => {
+     return workSheetColumnNames.map((columnName) => dataPotensiSakaItem[columnName]);
+   });
+ 
+   exportExcel(data, workSheetColumnNames, workSheetName, filePath);
+ };

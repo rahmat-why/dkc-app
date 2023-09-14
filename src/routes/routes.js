@@ -453,10 +453,10 @@ router.get('/api/saka', sakaController.getAll);
 router.post('/api/saka', sakaController.store);
 
 //update sk_saka
-router.post('/api/saka/upload-sk_saka/:saka_id', uploadFile("sk_saka", filetypes_document).single('document'), sakaController.uploadDocumentSkSaka);
+router.post('/api/saka/upload-sk-saka/:saka_id', uploadFile("sk_saka", filetypes_document).single('document'), sakaController.uploadDocumentSkSaka);
 
 //update sk_saka
-router.post('/api/saka/upload-sk_pinsaka/:saka_id', uploadFile("sk_pinsaka", filetypes_document).single('document'), sakaController.uploadDocumentSkPinsaka);
+router.post('/api/saka/upload-sk-pinsaka/:saka_id', uploadFile("sk_pinsaka", filetypes_document).single('document'), sakaController.uploadDocumentSkPinsaka);
 
 //destroy
 router.delete('/api/saka/:saka_id', sakaController.destroy);

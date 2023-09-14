@@ -13,10 +13,9 @@ export async function getAll(req, res) {
 export async function store(req, res) {
     try {
         const { name } = req.body
-        console.log(req.body);
 
-        const saka = await sakaModel.store(name, '', '');
-        return response(res, 200, true, "Saka succesfully added!", saka)
+        await sakaModel.store(name, '', '');
+        return response(res, 200, true, "Saka succesfully added!", {})
     }catch(e) {
         return response(res, 500, false, e, {})
     }
