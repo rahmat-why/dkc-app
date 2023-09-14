@@ -29,8 +29,9 @@ export const getAll = () => {
   return DataPotensiSakas;
 };
 
-export const store = (saka_id, dkr_id, total_member, mens_member, womens_member, year) => {
+export const store = (saka_id, dkr_id, mens_member, womens_member, year) => {
     const data_id = "DPK"+Math.random();
+    const total_member = parseInt(mens_member)+parseInt(womens_member);
     const store = DataPotensiSaka.create({
         data_id: data_id,
         saka_id: saka_id,
@@ -42,4 +43,14 @@ export const store = (saka_id, dkr_id, total_member, mens_member, womens_member,
     })
     
     return store;
- }
+}
+
+export const destroy = (saka_id) => {
+    const destroy = DataPotensiSaka.destroy({
+        where: {
+            saka_id: saka_id
+        }
+    });
+
+    return destroy
+}

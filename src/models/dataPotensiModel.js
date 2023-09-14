@@ -11,6 +11,8 @@ export const DataPotensi = connection.define('data_potensi', {
     dkr_id: Sequelize.STRING,
     school_id: Sequelize.STRING,
     stage_id: Sequelize.STRING,
+    mens_member: Sequelize.STRING,
+    womens_member: Sequelize.STRING,
     total_member: Sequelize.STRING,
     year: Sequelize.STRING
 });
@@ -29,13 +31,16 @@ export const getAll = (dkr_id, school_id) => {
     return data_potensi;
 }
 
-export const store = (dkr_id, school_id, stage_id, total_member, year) => {
+export const store = (dkr_id, school_id, stage_id, mens_member, womens_member, year) => {
     const data_id = "DP"+Math.random();
+    const total_member = parseInt(mens_member)+parseInt(womens_member);
     const store = DataPotensi.create({
         data_id: data_id,
         dkr_id: dkr_id,
         school_id: school_id,
         stage_id: stage_id,
+        mens_member: mens_member,
+        womens_member: womens_member,
         total_member: total_member,
         year: year
     })

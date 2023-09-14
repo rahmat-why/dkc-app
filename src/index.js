@@ -18,5 +18,5 @@ app.use(express.json())
 
 app.use('/', routes)
 
-const port = process.env.PORT
+const port = 3001
 app.listen(port, () => console.log("server berjalan pada http://localhost:"+port))

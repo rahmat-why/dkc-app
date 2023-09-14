@@ -10,7 +10,9 @@ export const Dkr = connection.define('dkrs', {
     name: Sequelize.STRING,
     area_id: Sequelize.STRING,
     username: Sequelize.STRING,
-    password: Sequelize.STRING
+    password: Sequelize.STRING,
+    document_sk_dkr: Sequelize.STRING,
+    image_structure_dkr: Sequelize.STRING
 });
 
 Dkr.belongsTo(Area, { foreignKey: 'area_id' });
@@ -18,7 +20,7 @@ Dkr.belongsTo(Area, { foreignKey: 'area_id' });
 export const getAll = () => {
     const dkrs = Dkr.findAll({
         include: Area,
-        attributes: ["dkr_id", "area_id", 'name', "username"]
+        attributes: ["dkr_id", "area_id", 'name', "username", "document_sk_dkr", "image_structure_dkr"]
     })
 
     return dkrs;
@@ -55,6 +57,7 @@ export const store = (name, area_id, username, password) => {
 }
 
 export const update = (dkr_id, update) => {
+    console.log([dkr_id, update])
     const edit = Dkr.update(update, {
         where: {
             dkr_id: dkr_id
@@ -72,4 +75,22 @@ export const destroy = (dkr_id) => {
     });
 
     return destroy
+}
+
+export const getStructureDkr = (dkr_id) => {
+    const dkrs = Dkr.findOne({
+        where : { dkr_id : dkr_id},
+        attributes: ["dkr_id", "image_structure_dkr"]
+    })
+
+    return dkrs;
+}
+
+export const getSkDkr = (dkr_id) => {
+    const dkrs = Dkr.findOne({
+        where : { dkr_id : dkr_id},
+        attributes: ["dkr_id", "document_sk_dkr"]
+    })
+
+    return dkrs;
 }
