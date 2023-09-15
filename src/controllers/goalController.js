@@ -31,7 +31,11 @@ export async function getAllVisi(req, res) {
 export async function update(req, res) {
     try{
         const { goal_id } = req.params
-        const goals = await goalModel.update(goal_id, req.body);
+        const update = {
+            type : req.body.type,
+            description : req.body.description
+        }
+        const goals = await goalModel.update(goal_id, update);
         return response(res, 200, true, "Success", goals)
     }catch(e) {
         return response(res, 500, false, e, {})

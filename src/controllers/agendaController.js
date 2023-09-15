@@ -13,7 +13,11 @@ export async function getAll(req, res) {
 export async function update(req, res) {
     try{
         const { agenda_id } = req.params
-        const agendas = await agendaModel.update(agenda_id, req.body);
+        const update = {
+            title : req.body.title,
+            scheduleAt : req.body.scheduleAt,
+        }
+        const agendas = await agendaModel.update(agenda_id, update);
         return response(res, 200, true, "Success", agendas)
     }catch(e) {
         return response(res, 500, false, e, {})

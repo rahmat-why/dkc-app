@@ -35,6 +35,28 @@ export async function store(req, res) {
     }
 }
 
+export async function update(req, res) {
+    try{
+        const { officer_id } = req.params
+        const update = {
+            name: req.body.name,
+            nta : req.body.nta,
+            stage_id : req.body.stage_id,
+            scope_id : req.body.scope_id,
+            education : req.body.education,
+            city : req.body.city,
+            instagram : req.body.instagram,
+            facebook : null,
+            position : req.body.position
+        }
+
+        const profile_officers = await profileOfficerModel.update(officer_id, update);
+        return response(res, 200, true, "Success", profile_officers)
+    }catch(e) {
+        return response(res, 500, false, e, {})
+    }
+}
+
 export async function destroy(req, res) {
     try{
         const { officer_id } = req.params

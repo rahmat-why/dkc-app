@@ -13,7 +13,11 @@ export async function getAll(req, res) {
 export async function update(req, res) {
     try{
         const { achievement_id } = req.params
-        const achievements = await achievementModel.update(achievement_id, req.body);
+        const update = {
+            title : req.body.title,
+            description : req.body.description
+        }
+        const achievements = await achievementModel.update(achievement_id, update);
         return response(res, 200, true, "Success", achievements)
     }catch(e) {
         return response(res, 500, false, e, {})

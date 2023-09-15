@@ -24,6 +24,20 @@ export async function store(req, res) {
     }
 }
 
+export async function update(req, res){
+    try{
+        const { document_id } = req.params;
+        const update = {
+            name: req.body.name
+        }
+
+        const scout_documents = await scout_documentModel.update(document_id, update);
+        return response(res, 200, true, "Success", scout_documents);
+    }catch(e) {
+        return response(res, 500, false, e, {})
+    }
+}
+
 export async function destroy(req, res) {
     try{
         const { document_id } = req.params

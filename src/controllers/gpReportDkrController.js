@@ -26,6 +26,23 @@ export async function store(req, res) {
     }
 }
 
+export async function update(req, res) {
+    try {
+        const { report_id } = req.params;
+        const update = {
+            dkr_id : req.body.dkr_id,
+            name : req.body.name,
+            type : req.body.type,
+            year : req.body.year
+        }
+
+        const gp_reports = await gpReportDkrModel.update(report_id, update);
+        return response(res, 200, false, "Success", gp_reports)
+    }catch(e) {
+        return response(res, 500, false, e, {})
+    }
+}
+
 export async function destroy(req, res) {
     try{
         const { report_id } = req.params

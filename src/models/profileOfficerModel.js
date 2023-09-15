@@ -80,6 +80,16 @@ export const store = (name, nta, image, stage_id, scope_id, education, city, ins
     return store;
 }
 
+export const update = (officer_id, update) => {
+  const edit = ProfileOfficer.update(update, {
+      where: {
+        officer_id: officer_id
+      }
+  });
+
+  return edit
+}
+
 export const destroy = (officer_id) => {
     const destroy = ProfileOfficer.destroy({
         where: {

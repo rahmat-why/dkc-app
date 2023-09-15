@@ -23,7 +23,11 @@ export async function getByYear(req, res) {
 export async function update(req, res) {
     try{
         const { program_id } = req.params
-        const program_dkcs = await program_dkcModel.update(program_id, req.body);
+        const update = {
+            program_name : req.body.program_name,
+            year : req.body.year
+        }
+        const program_dkcs = await program_dkcModel.update(program_id, update);
         return response(res, 200, true, "Success", program_dkcs)
     }catch(e) {
         return response(res, 500, false, e, {})

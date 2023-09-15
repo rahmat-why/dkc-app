@@ -42,6 +42,16 @@ export const store = (dkr_id, document, name, type, year) => {
     return store;
 }
 
+export const update = (report_id, update) => {
+    const edit = GpReportDkr.update(update, {
+        where: {
+            report_id: report_id
+        }
+    });
+  
+    return edit
+  }
+
 export const destroy = (report_id) => {
     const destroy = GpReportDkr.destroy({
         where: {
