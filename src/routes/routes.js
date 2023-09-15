@@ -149,6 +149,9 @@ router.post(
     gpReportDkrController.store
 );
 
+//put
+router.put('/api/gp-reports/:report_id', loginMiddleware, gpReportDkrController.update)
+
 router.delete('/api/gp-reports/:report_id', loginMiddleware, gpReportDkrController.destroy)
 
 // program dkr
@@ -244,6 +247,10 @@ router.post(
     profileOfficerController.store
 );
 
+//update
+router.put('/api/officers/:officer_id', loginMiddleware, profileOfficerController.update);
+
+//delete
 router.delete('/api/officers/:officer_id', loginMiddleware, profileOfficerController.destroy)
 
 // area coordinator
@@ -322,7 +329,7 @@ router.put('/api/agendas/:agenda_id', loginMiddleware, upload.fields([
     { name: 'scheduleAt', maxCount: 1 },
 ]), agendaController.update)
 
-router.delete('/api/agendas/:agenda_id', agendaController.destroy)
+router.delete('/api/agendas/:agenda_id', loginMiddleware, agendaController.destroy)
 
 //achievement
 router.get('/api/achievements',achievementController.getAll)
@@ -394,6 +401,9 @@ router.post(
     scout_documentController.store
 );
 
+//put
+router.put('/api/scout-documents/:document_id', scout_documentController.update);
+
 //destroy
 router.delete('/api/scout-documents/:document_id', loginMiddleware, scout_documentController.destroy)
 
@@ -446,6 +456,9 @@ router.post(
     productController.store
 );
 
+//update
+router.put('/api/products/:product_id', loginMiddleware, productController.update);
+
 //destroy
 router.delete('/api/products/:product_id', loginMiddleware, productController.destroy)
 
@@ -454,37 +467,37 @@ router.delete('/api/products/:product_id', loginMiddleware, productController.de
 router.get('/api/saka', sakaController.getAll);
 
 //post saka
-router.post('/api/saka', sakaController.store);
+router.post('/api/saka', loginMiddleware, sakaController.store);
 
 //update sk_saka
-router.post('/api/saka/upload-sk-saka/:saka_id', uploadFile("sk_saka", filetypes_document).single('document'), sakaController.uploadDocumentSkSaka);
+router.post('/api/saka/upload-sk-saka/:saka_id', loginMiddleware, uploadFile("sk_saka", filetypes_document).single('document'), sakaController.uploadDocumentSkSaka);
 
 //update sk_saka
-router.post('/api/saka/upload-sk-pinsaka/:saka_id', uploadFile("sk_pinsaka", filetypes_document).single('document'), sakaController.uploadDocumentSkPinsaka);
+router.post('/api/saka/upload-sk-pinsaka/:saka_id', loginMiddleware, uploadFile("sk_pinsaka", filetypes_document).single('document'), sakaController.uploadDocumentSkPinsaka);
 
 //destroy
-router.delete('/api/saka/:saka_id', sakaController.destroy);
+router.delete('/api/saka/:saka_id', loginMiddleware, sakaController.destroy);
 
 //Report Saka
 //get
 router.get('/api/report-saka', reportSakaController.getAll);
 
 //post Report Saka
-router.post('/api/report-saka', uploadFile("report-saka", filetypes_document).single('document'), reportSakaController.store);
+router.post('/api/report-saka', loginMiddleware, uploadFile("report-saka", filetypes_document).single('document'), reportSakaController.store);
 
 //destroy
-router.delete('/api/report-saka/:report_id', reportSakaController.destroy);
+router.delete('/api/report-saka/:report_id', loginMiddleware, reportSakaController.destroy);
 
 
 //Data Potensi Saka
 //post
-router.post('/api/data-potensi-saka', dataPotensiSakaController.store)
+router.post('/api/data-potensi-saka', loginMiddleware, dataPotensiSakaController.store)
 
 //export to excel data potensi saka
-router.get("/api/export-data-potensi-saka/:year", exportController.getDataExportDataPotensiSaka);
+router.get("/api/export-data-potensi-saka/:year", loginMiddleware, exportController.getDataExportDataPotensiSaka);
 
 //export to excel data potensi
-router.get("/api/export-data-potensi/:year", exportController.getDataExportDataPotensi)
+router.get("/api/export-data-potensi/:year", loginMiddleware, exportController.getDataExportDataPotensi)
 
 
 export default router
