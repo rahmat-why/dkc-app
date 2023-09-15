@@ -29,12 +29,18 @@ export async function getDataExportDataPotensiSaka(req, res) {
       // Mengambil kunci (key) dari objek pertama dalam array
       const workSheetColumnNames = Object.keys(datapotensisaka[0]);
       const workSheetName = "Data Potensi Saka"
-      const filePath =`./upload/export-data-potensi-saka/${fileName}`; 
+      // Generate the Excel file
+      const excelFilePath = path.resolve(`./upload/export-data-potensi-saka/${fileName}`);
 
-      exportDataPotensiSakatoExcel(datapotensisaka, workSheetColumnNames, workSheetName, filePath)
+      exportDataPotensiSakatoExcel(datapotensisaka, workSheetColumnNames, workSheetName, excelFilePath)
       
-      //RESULT IF READ ALL DATA SUCCESSFUL
-      return res.status(201).json({ success: true, message: "Export data successfully!", datapotensisaka });
+      // Set HTTP headers for the response
+      res.setHeader("Content-Disposition", `attachment; filename=${fileName}`);
+      res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+      // Send the file as a response
+      res.sendFile(excelFilePath);
+      
    }  catch (error) {
       //RESULT IF READ ALL DATA FAILED
       console.error(error.message);
@@ -57,12 +63,17 @@ export async function getDataExportDataPotensi(req, res) {
       // Mengambil kunci (key) dari objek pertama dalam array
       const workSheetColumnNames = Object.keys(datapotensi[0]);
       const workSheetName = "Data Potensi"
-      const filePath =`./upload/export-data-potensi/${fileName}`; 
+      // Generate the Excel file
+      const excelFilePath = path.resolve(`./upload/export-data-potensi/${fileName}`);
 
-      exportDataPotensitoExcel(datapotensi, workSheetColumnNames, workSheetName, filePath)
+      exportDataPotensitoExcel(datapotensi, workSheetColumnNames, workSheetName, excelFilePath)
       
-      //RESULT IF READ ALL DATA SUCCESSFUL
-      return res.status(201).json({ success: true, message: "Export data successfully!", datapotensi});
+      // Set HTTP headers respon
+      res.setHeader("Content-Disposition", `attachment; filename=${fileName}`);
+      res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+      // Send the file as a response
+      res.sendFile(excelFilePath);
    }  catch (error) {
       //RESULT IF READ ALL DATA FAILED
       console.error(error.message);
@@ -81,6 +92,24 @@ const exportExcel = (data, workSheetColumnNames, workSheetNames, filePath) => {
    xlsx.writeFile(workBook, path.resolve(filePath));
 }
 
+const exportDataPotensitoExcel = (datapotensi, workSheetColumnNames, workSheetName, filePath) => {
+   const data = datapotensi.map((dataPotensiItem) => {
+     return workSheetColumnNames.map((columnName) => dataPotensiItem[columnName]);
+   });
+   console.log(data);
+ 
+   exportExcel(data, workSheetColumnNames, workSheetName, filePath);
+ };
+
+const exportDataPotensiSakatoExcel = (datapotensisaka, workSheetColumnNames, workSheetName, filePath) => {
+   const data = datapotensisaka.map((dataPotensiSakaItem) => {
+     return workSheetColumnNames.map((columnName) => dataPotensiSakaItem[columnName]);
+   });
+ 
+   exportExcel(data, workSheetColumnNames, workSheetName, filePath);
+};
+
+
 const exportDataPotensitoExcelOld = (datapotensi, workSheetColumnNames, workSheetName, filePath) => {
    const data = datapotensi.map(data => {
        return [data.school_name, data['Calon Penegak_mens_member'], data['Calon Penegak_womens_member'], data['Penegak Bantara_mens_member'], data['Penegak Bantara_womens_member'], data['Penegak Laksana_mens_member'], data['Penegak Laksana_womens_member'], data['Penegak Garuda_mens_member'], data['Penegak Garuda_womens_member'], data['Calon Pandega_mens_member'], data['Calon Pandega_womens_member'], data['Pandega_mens_member'], data['Pandega_womens_member'], data['Pandega Garuda_mens_member'], data['Pandega Garuda_womens_member']];
@@ -96,21 +125,3 @@ const exportDataPotensiSakatoExcelOld = (datapotensisaka, workSheetColumnNames, 
 
    exportExcel(data, workSheetColumnNames, workSheetName, filePath);
 }
-
-const exportDataPotensitoExcel = (dataPotensi, workSheetName, filePath) => {
-   const workSheetColumnNames = Object.keys(dataPotensi[0]);
-   const data = dataPotensi.map((dataPotensiItem) => {
-     return workSheetColumnNames.map((columnName) => dataPotensiItem[columnName]);
-   });
- 
-   exportExcel(data, workSheetColumnNames, workSheetName, filePath);
- };
-
-const exportDataPotensiSakatoExcel = (dataPotensiSaka, workSheetName, filePath) => {
-   const workSheetColumnNames = Object.keys(dataPotensiSaka[0]);
-   const data = dataPotensiSaka.map((dataPotensiSakaItem) => {
-     return workSheetColumnNames.map((columnName) => dataPotensiSakaItem[columnName]);
-   });
- 
-   exportExcel(data, workSheetColumnNames, workSheetName, filePath);
- };

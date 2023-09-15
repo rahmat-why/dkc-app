@@ -10,7 +10,7 @@ export const getDataPotensiSaka = async (year) => {
 			replacements: { year },
 			type: connection.QueryTypes.RAW 
 		})
-        console.log(results)
+        //console.log(results)
         return results;
     }
     catch (error) {
@@ -25,7 +25,7 @@ export const getDataPotensi = async (year) => {
 			replacements: { year },
 			type: connection.QueryTypes.RAW 
 		})
-        console.log(results)
+        //console.log(results)
         return results;
     }
     catch (error) {
