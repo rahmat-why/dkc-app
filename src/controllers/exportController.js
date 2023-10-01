@@ -1,6 +1,7 @@
 import * as exportService from "../models/exportService.js"
 import xlsx from "xlsx";
 import path from "path";
+import { callSlackApi } from "../services/slackService.js";
 
 function formatDateTime(date) {
    const year = date.getFullYear().toString();
@@ -43,8 +44,8 @@ export async function getDataExportDataPotensiSaka(req, res) {
       
    }  catch (error) {
       //RESULT IF READ ALL DATA FAILED
-      console.error(error.message);
-      return res.status(500).json({ success: false, message: error.message, data: null });
+      callSlackApi(e.message + "| in exportController@getDataExportDataPotensiSaka");
+      return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {});
    }
 }
 
@@ -74,10 +75,10 @@ export async function getDataExportDataPotensi(req, res) {
 
       // Send the file as a response
       res.sendFile(excelFilePath);
-   }  catch (error) {
+   }  catch (e) {
       //RESULT IF READ ALL DATA FAILED
-      console.error(error.message);
-      return res.status(500).json({ success: false, message: error.message, data: null });
+      callSlackApi(e.message + "| in exportController@getDataExportDataPotensi");
+      return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {});
    }
 }
 

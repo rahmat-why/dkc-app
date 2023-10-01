@@ -1,5 +1,6 @@
 import response from '../response.js'
 import * as authModel from "../models/authModel.js"
+import { callSlackApi } from '../services/slackService.js';
 
 export async function login(req, res) {
     try {
@@ -21,11 +22,12 @@ export async function login(req, res) {
             }
 
             let token = authModel.generateToken(data)
-            return response(res, 200, false, "success", {token: token, type: type})
+            return response(res, 200, false, "Success berhasil login!", {token: token, type: type})
         }
         
     }catch(e) {
-        return response(res, 500, false, e, {})
+        callSlackApi(e.message + "| in loginController@login");
+        return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {})
     }
 }
 
@@ -37,6 +39,7 @@ export async function checkLogin(req, res) {
         const check_login = authModel.checkLogin(token);
         return response(res, 200, true, "Token valid!", check_login)
     }catch(e) {
-        return response(res, 500, false, e, {})
+        callSlackApi(e.message + "| in loginController@checkLogin");
+        return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {})
     }
 }

@@ -1,12 +1,14 @@
 import response from "../response.js";
 import * as dataPotensiSakaModel from "../models/dataPotensiSakaModel.js"
+import { callSlackApi } from "../services/slackService.js";
 
 export async function getAll(req, res) {
     try {
         const DataPotensiSakas = await dataPotensiSakaModel.getAll();
-        return response(res, 200, true, "Data potensi saka succesfully reterived!", DataPotensiSakas)
+        return response(res, 200, true, "Success data berhasil ditampilkan!", DataPotensiSakas)
     }catch(e) {
-        return response(res, 500, false, e, {})
+        callSlackApi(e.message + "| in dataPotensiSakaController@getAll");
+        return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {})
     }
 }
 
@@ -19,8 +21,9 @@ export async function store(req, res) {
             await dataPotensiSakaModel.store(saka_id, element.dkr_id, element.total_mens_member, element.total_womens_member, new Date().getFullYear());
         }
 
-        return response(res, 200, true, "Success", {})
+        return response(res, 200, true, "Success data berhasil ditambah!", {})
     }catch(e) {
-        return response(res, 500, false, e.message, {})
+        callSlackApi(e.message + "| in dataPotensiSakaController@store");
+        return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {})
     }
 }
