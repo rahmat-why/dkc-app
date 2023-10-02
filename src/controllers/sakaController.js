@@ -8,7 +8,7 @@ export async function getAll(req, res) {
         const sakas = await sakaModel.getAll();
         return response(res, 200, true, "Success data berhasil ditampilkan!", sakas)
     }catch(e) {
-        callSlackApi(e.message + "| in sakaController@getAll");
+        callSlackApi(e.message + " | in sakaController@getAll");
         return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {})
     }
 }
@@ -20,7 +20,7 @@ export async function store(req, res) {
         await sakaModel.store(name, '', '');
         return response(res, 200, true, "Success data berhasil ditambah!", {})
     }catch(e) {
-        callSlackApi(e.message + "| in sakaController@store");
+        callSlackApi(e.message + " | in sakaController@store");
         return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {})
     }
 }
@@ -42,7 +42,7 @@ export async function uploadDocumentSkSaka(req, res) {
 
         return response(res, 200, true, "Document SK Saka berhasil diunggah!", update);
     } catch (e) {
-        callSlackApi(e.message + "| in sakaController@uploadDocumentSkSaka");
+        callSlackApi(e.message + " | in sakaController@uploadDocumentSkSaka");
         return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {});
     }
 }
@@ -62,8 +62,23 @@ export async function uploadDocumentSkPinsaka(req, res) {
 
         return response(res, 200, true, "Document SK Pin Saka berhasil diunggah!", update);
     } catch (e) {
-        callSlackApi(e.message + "| in sakaController@uploadDocumentSkPinsaka");
+        callSlackApi(e.message + " | in sakaController@uploadDocumentSkPinsaka");
         return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {});
+    }
+}
+
+export async function update(req, res){
+    try{
+        const { saka_id } = req.params;
+        const update = {
+            name: req.body.name
+        }
+
+        const sakas = await sakaModel.update(saka_id2, update);
+        return response(res, 200, true, "Success data berhasil diperbarui!", sakas);
+    }catch(e) {
+        callSlackApi(e.message + " | in sakaController@update");
+        return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {})
     }
 }
 
@@ -73,7 +88,7 @@ export async function destroy(req, res) {
         const sakas = await sakaModel.destroy(saka_id);
         return response(res, 200, true, "Success data berhasil dihapus!", sakas)
     }catch(e) {
-        callSlackApi(e.message + "| in sakaController@destroy");
+        callSlackApi(e.message + " | in sakaController@destroy");
         return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {})
     }
 }

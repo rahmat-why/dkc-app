@@ -39,6 +39,16 @@ export const store = (name, nta, image, area_id) => {
     return store;
 }
 
+export const update = (coordinator_id, update) => {
+    const edit = AreaCoordinator.update(update, {
+        where: {
+            coordinator_id: coordinator_id
+        }
+    });
+ 
+    return edit
+}
+
 export const destroy = (coordinator_id) => {
     const destroy = AreaCoordinator.destroy({
         where: {

@@ -38,6 +38,16 @@ export const store = (saka_id, name, report_date, document) => {
    return store;
 }
 
+export const update = (report_id, update) => {
+    const edit = Reportsaka.update(update, {
+        where: {
+            report_id: report_id
+        }
+    });
+ 
+    return edit
+}
+
 export const destroy = (report_id) => {
     const report_saka = Reportsaka.destroy({
         where: {

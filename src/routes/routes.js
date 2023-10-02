@@ -273,6 +273,8 @@ router.post(
     areaCoordinatorController.store
 );
 
+router.put('/api/area-coordinators/:coordinator_id', loginMiddleware, areaCoordinatorController.update);
+
 router.delete('/api/area-coordinators/:coordinator_id', loginMiddleware, areaCoordinatorController.destroy)
 
 router.post('/api/data-potensi/:dkr_id', upload.fields([
@@ -475,6 +477,9 @@ router.post('/api/saka/upload-sk-saka/:saka_id', loginMiddleware, uploadFile("sk
 //update sk_saka
 router.post('/api/saka/upload-sk-pinsaka/:saka_id', loginMiddleware, uploadFile("sk_pinsaka", filetypes_document).single('document'), sakaController.uploadDocumentSkPinsaka);
 
+//update
+router.put('/api/saka/:saka_id', sakaController.update);
+
 //destroy
 router.delete('/api/saka/:saka_id', loginMiddleware, sakaController.destroy);
 
@@ -484,6 +489,9 @@ router.get('/api/report-saka', reportSakaController.getAll);
 
 //post Report Saka
 router.post('/api/report-saka', loginMiddleware, uploadFile("report-saka", filetypes_document).single('document'), reportSakaController.store);
+
+//update
+router.put('/api/report-saka/:report_id', loginMiddleware, reportSakaController.update);
 
 //destroy
 router.delete('/api/report-saka/:report_id', loginMiddleware, reportSakaController.destroy);

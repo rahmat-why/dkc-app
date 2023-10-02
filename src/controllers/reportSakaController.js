@@ -30,6 +30,22 @@ export async function store(req, res) {
     }
 }
 
+export async function update(req, res){
+    try{
+        const { report_id } = req.params;
+        const update = {
+            name: req.body.name,
+            saka_id: req.body.saka_id,
+            report_date: req.body.report_date
+        }
+
+        const sakas = await reportSakaModel.update(report_id, update);
+        return response(res, 200, true, "Success data berhasil diperbarui!", sakas);
+    }catch(e) {
+        return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {})
+    }
+}
+
 export async function destroy(req, res) {
     try{
         const { report_id } = req.params

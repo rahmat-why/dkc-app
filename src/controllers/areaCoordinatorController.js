@@ -27,6 +27,22 @@ export async function store(req, res) {
     }
 }
 
+export async function update(req, res){
+    try{
+        const { coordinator_id } = req.params;
+        const update = {
+            name: req.body.name,
+            nta: req.body.nta,
+            area_id: req.body.area_id
+        }
+
+        const area_coordinators = await areaCoordinatorModel.update(coordinator_id, update);
+        return response(res, 200, true, "Success data berhasil diperbarui!", area_coordinators);
+    }catch(e) {
+        return response(res, 500, false, "Error silahkan hubungi admin! "+e.message, {})
+    }
+}
+
 export async function destroy(req, res) {
     try{
         const { coordinator_id } = req.params
