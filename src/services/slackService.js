@@ -1,26 +1,23 @@
-import connection from "../config/db.config.js";
+import request from 'request'; // Import modul request
 
-import Slack from '@slack/bolt';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-//FUNCTION TO READ ALL DATA OTOPEDS
+//mengirim pesan ke Slack menggunakan webhook
 export const callSlackApi = (message) => {
-    try {
-        const app = new Slack.App({
-          signingSecret: process.env.SLACK_SIGNING_SECRET,
-          token: process.env.SLACK_BOT_TOKEN
-        });
-        
-        app.client.chat.postMessage({
-          token: process.env.SLACK_BOT_TOKEN,
-          channel: process.env.SLACK_CHANNEL,
-          text: message
-        });
-        
+  var options = {
+    'method': 'POST',
+    'url': 'https://hooks.slack.com/services/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', // URL webhook
+    'headers': {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "text": message
+    })
+  };
+
+  request(options, function (error, response, body) { 
+    if (error) {
+      console.error('Error sending message to Slack:', error);
+    } else {
+      //console.log('Message sent to Slack:', body);
     }
-    catch (error) {
-        throw new Error(`Failed to read data potensi saka: ${error.message}`);
-    }
-}
+  });
+};
